@@ -10,10 +10,14 @@ import { ReactComponent as SearchButtonLogo } from "../icons/search-button.svg";
 
 class Header extends Component {
   render() {
+    const { handle } = this.props;
     return (
-      <div className="flex">
+      <div className="flex fixed w-full bg-white z-20">
         <div className="flex items-center w-1/4">
-          <BurgerMenuIcon className="w-6 ml-6 mt-1 cursor-pointer" />
+          <BurgerMenuIcon
+            onClick={handle}
+            className="w-6 ml-6 mt-1 cursor-pointer"
+          />
           <YoutubeLogo className="w-32 h-14 ml-2 cursor-pointer" />
         </div>
         <div className="flex items-center w-1/2">
