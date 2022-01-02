@@ -54,12 +54,12 @@ class MainPage extends Component {
           </div>
         ) : (
           <div className="flex fixed flex-col w-16 border-gray-400 mt-16 text-sm z-30">
-            <button className="flex flex-col items-center pl-1 py-2 bg-gray-200 hover:bg-gray-300 font-semibold">
+            <button className="flex flex-col items-center pl-1 py-2 bg-gray-200 hover:bg-gray-300 font-semibold text-xs">
               <HomeButton className="w-5 h-6" />
               <span>Home</span>
             </button>
 
-            <button className="flex flex-col items-center pl-1 py-2 hover:bg-gray-100 font-light">
+            <button className="flex flex-col items-center pl-1 py-2 hover:bg-gray-100 font-light text-xs">
               <ExploreButton className="w-5 h-6" />
               <span>Explore</span>
             </button>
