@@ -5,6 +5,7 @@ import VideoContent from "./components/VideoContent";
 import React, { Component } from "react";
 import ModalYouTubeApps from "./components/ModalYouTubeApps";
 import ModalSettings from "./components/ModalSettings";
+import MainVideoPage from "./components/MainVideoPage";
 
 class App extends Component {
   constructor(props) {
@@ -33,17 +34,24 @@ class App extends Component {
   };
 
   render() {
+    const { visibleYoutubeApps, visibleSettings } = this.state;
     return (
       <div className="App">
-        <Header
+        {/*<Header*/}
+        {/*  handleSideBar={this.handleSideBar}*/}
+        {/*  handleModalApps={this.handleModalYouTubeApps}*/}
+        {/*  handleModalSettings={this.handleModalSettings}*/}
+        {/*  visibleApps={visibleYoutubeApps}*/}
+        {/*  visibleSettings={visibleSettings}*/}
+        {/*/>*/}
+        <MainVideoPage
           handleSideBar={this.handleSideBar}
-          handleModal={this.handleModalYouTubeApps}
-          handleSettings={this.handleModalSettings}
+          handleModalApps={this.handleModalYouTubeApps}
+          handleModalSettings={this.handleModalSettings}
+          visibleApps={visibleYoutubeApps}
+          visibleSettings={visibleSettings}
         />
-        <ModalYouTubeApps visible={this.state.visibleYoutubeApps} />
-        <ModalSettings visible={this.state.visibleSettings} />
-        <MainPage state={this.state} />
-        <VideoContent state={this.state} />
+        {/*<MainPage state={this.state} />*/}
       </div>
     );
   }

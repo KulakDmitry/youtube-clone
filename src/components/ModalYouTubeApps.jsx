@@ -6,10 +6,10 @@ import { ReactComponent as YoutubeArtistsIcon } from "../icons/youtube-artists.s
 
 class ModalYouTubeApps extends Component {
   render() {
-    const { visible } = this.props;
+    const { visibleApps } = this.props;
     return (
       <div>
-        {visible && (
+        {visibleApps && (
           <div className="fixed z-20 top-[3.25rem] mx-2 right-4 border-gray-200 border-b border-l border-r bg-white">
             <div className="flex items-center h-10 p-4 my-2 hover:bg-gray-100 cursor-pointer">
               <YoutubeTVIcon className="w-5" />

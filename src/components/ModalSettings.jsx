@@ -4,10 +4,10 @@ import { ReactComponent as SettingsLanguageIcon } from "../icons/language-icon.s
 
 class ModalSettings extends Component {
   render() {
-    const { visible } = this.props;
+    const { visibleSettings } = this.props;
     return (
       <div>
-        {visible && (
+        {visibleSettings && (
           <div className="fixed z-20 top-14 w-72 mx-2 right-32 border-gray-200 border-b border-l border-r bg-white">
             <div className="flex items-center h-10 p-4  hover:bg-gray-100 cursor-pointer">
               <SettingsAppearanceIcon className="w-5" />
