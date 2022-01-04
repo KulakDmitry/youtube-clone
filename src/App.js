@@ -34,7 +34,7 @@ class App extends Component {
   };
 
   render() {
-    const { visibleYoutubeApps, visibleSettings } = this.state;
+    const { visibleYoutubeApps, visibleSettings, openSideBar } = this.state;
     return (
       <div className="App">
         {/*<Header*/}
@@ -45,6 +45,7 @@ class App extends Component {
         {/*  visibleSettings={visibleSettings}*/}
         {/*/>*/}
         <MainVideoPage
+          openSideBar={openSideBar}
           handleSideBar={this.handleSideBar}
           handleModalApps={this.handleModalYouTubeApps}
           handleModalSettings={this.handleModalSettings}
