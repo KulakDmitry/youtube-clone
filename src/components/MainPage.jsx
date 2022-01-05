@@ -72,7 +72,7 @@ class MainPage extends Component {
           <div
             className={`${
               state.openSideBar ? "ml-64" : "ml-16"
-            } z-10 bg-white flex mt-14 pl-6 ml-64 border-t border-b py-3 overflow-auto space-x-3 whitespace-nowrap text-sm`}
+            } z-20 bg-white flex mt-14 pl-6 ml-64 border-t border-b py-3 overflow-auto space-x-3 whitespace-nowrap text-sm`}
           >
             <p className="border rounded-full bg-black p-1 px-3 cursor-pointer text-white">
               All
