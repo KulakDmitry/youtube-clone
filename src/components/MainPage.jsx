@@ -14,7 +14,7 @@ class MainPage extends Component {
     const { state } = this.props;
     return (
       <>
-        <div className="fixed w-full">
+        <div className="fixed w-full z-10">
           {state.openSideBar ? (
             <div className="flex fixed flex-col w-60 border-gray-400 mt-16 text-sm z-30 ">
               <button className="flex items-center px-6 py-2 bg-gray-200 hover:bg-gray-300 font-semibold">

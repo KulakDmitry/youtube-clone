@@ -45,32 +45,34 @@ class App extends Component {
           key: api_key,
           part: "snippet, contentDetails, statistics",
           chart: "mostPopular",
-          maxResults: 15,
+          maxResults: 25,
           regionCode: "US",
         })
     )
       .then((res) => res.json())
-      .then((data) =>
+      .then((data) => {
+        data.items.forEach((item) => getChannelIcon(item));
         this.setState({
           video: data.items,
-        })
-      )
+        });
+      })
+
       .catch((err) => console.log(err));
 
-    // const getChannelIcon = (video) => {
-    //   fetch(
-    //     channelData +
-    //       new URLSearchParams({
-    //         key: api_key,
-    //         part: "snippet",
-    //         id: video.snippet.channelId,
-    //       })
-    //   )
-    //     .then((res) => res.json())
-    //     .then((data) => {
-    //       video.channelThumbnail = data.items[0].snippet.thumbnails.default.url;
-    //     });
-    // };
+    const getChannelIcon = (video) => {
+      fetch(
+        channelData +
+          new URLSearchParams({
+            key: api_key,
+            part: "snippet",
+            id: video.snippet.channelId,
+          })
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          video.channelThumbnail = data.items[0].snippet.thumbnails.default.url;
+        });
+    };
   }
 
   render() {
