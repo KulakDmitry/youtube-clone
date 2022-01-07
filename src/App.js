@@ -45,7 +45,7 @@ class App extends Component {
           key: api_key,
           part: "snippet, contentDetails, statistics",
           chart: "mostPopular",
-          maxResults: 25,
+          maxResults: 3,
           regionCode: "US",
         })
     )
