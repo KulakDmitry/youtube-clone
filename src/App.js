@@ -19,8 +19,16 @@ class App extends Component {
       visibleYoutubeApps: false,
       visibleSettings: false,
       video: [],
+      isChoose: false,
     };
   }
+
+  handleChoose = (id) => {
+    this.setState({
+      isChoose: id,
+    });
+  };
+
   handleSideBar = () => {
     this.setState({
       openSideBar: !this.state.openSideBar,
@@ -79,22 +87,24 @@ class App extends Component {
     const { visibleYoutubeApps, visibleSettings, openSideBar } = this.state;
     return (
       <div className="App">
-        <Header
-          handleSideBar={this.handleSideBar}
-          handleModalApps={this.handleModalYouTubeApps}
-          handleModalSettings={this.handleModalSettings}
-          visibleApps={visibleYoutubeApps}
-          visibleSettings={visibleSettings}
-        />
-        {/*<MainVideoPage*/}
-        {/*  openSideBar={openSideBar}*/}
+        {/*<Header*/}
         {/*  handleSideBar={this.handleSideBar}*/}
         {/*  handleModalApps={this.handleModalYouTubeApps}*/}
         {/*  handleModalSettings={this.handleModalSettings}*/}
         {/*  visibleApps={visibleYoutubeApps}*/}
         {/*  visibleSettings={visibleSettings}*/}
         {/*/>*/}
-        <MainPage state={this.state} />
+        <MainVideoPage
+          openSideBar={openSideBar}
+          handleSideBar={this.handleSideBar}
+          handleModalApps={this.handleModalYouTubeApps}
+          handleModalSettings={this.handleModalSettings}
+          visibleApps={visibleYoutubeApps}
+          visibleSettings={visibleSettings}
+          handleChoose={this.handleChoose}
+          state={this.state}
+        />
+        {/*<MainPage state={this.state} handleChoose={this.handleChoose} />*/}
       </div>
     );
   }

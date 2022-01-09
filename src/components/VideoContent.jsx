@@ -31,33 +31,74 @@ class VideoContent extends Component {
     const date = Math.round((Date.now() - Date.parse(str)) / 60000); //convert ms to minutes
     let timeAgo;
     if (date >= 60) {
-      timeAgo = Math.round(date / 60) + " hours ago";
+      timeAgo = Math.trunc(date / 60) + " hours ago";
     } else {
       timeAgo = date + "minutes ago";
     }
 
-    if (date > 1439) {
-      timeAgo = Math.trunc(date / 1439) + " day ago";
+    if (date >= 1440) {
+      timeAgo = Math.trunc(date / 1440) + " day ago";
     }
 
-    if (date > 43199) {
-      timeAgo = Math.trunc(date / 43199) + " month ago";
+    if (date >= 43200) {
+      timeAgo = Math.trunc(date / 43200) + " month ago";
     }
 
-    if (date > 518399) {
-      timeAgo = Math.trunc(date / 518399) + " years ago";
+    if (date >= 518400) {
+      timeAgo = Math.trunc(date / 518400) + " years ago";
     }
 
     return timeAgo;
   };
 
-  // videoDuration = (str) => {
-  //   const arr = str.match(/\d+/g).join(":");
-  // };
+  videoDuration = (str) => {
+    const matches = str.match(/T(?:([.,\d]+)H)?(?:([.,\d]+)M)?(?:([.,\d]+)S)?/);
 
-  // parseDate(str) {
-  //   return str.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/).join(":");
-  // }
+    const obj = {
+      hours: matches[1],
+      minutes: matches[2],
+      seconds: matches[3],
+    };
+
+    if (obj.hours < 10 && obj.hours > 0) {
+      obj.hours = "0" + obj.hours;
+    }
+
+    if (obj.hours === undefined) {
+      obj.hours = "0";
+    }
+
+    if (obj.minutes < 10 && obj.minutes > 0 && obj.hours > 0) {
+      obj.minutes = "0" + obj.minutes;
+    }
+    if (obj.minutes === 0 && obj.seconds === 0) {
+      obj.minutes = null;
+    }
+
+    if (obj.minutes === undefined) {
+      obj.minutes = "0";
+    }
+
+    if (obj.minutes === 0 && obj.seconds > 0) {
+      obj.minutes = "0";
+    }
+
+    if (obj.seconds < 10 && obj.seconds > 0) {
+      obj.seconds = "0" + obj.seconds;
+    }
+    if (obj.seconds === "00" || obj.seconds === 0) {
+      obj.seconds = "00";
+    }
+
+    let duration;
+
+    if (obj.hours === "0") {
+      duration = obj.minutes + ":" + obj.seconds;
+    } else {
+      duration = obj.hours + ":" + obj.minutes + ":" + obj.seconds;
+    }
+    return duration;
+  };
 
   render() {
     const { state } = this.props;
@@ -76,8 +117,8 @@ class VideoContent extends Component {
                 src={`${i.snippet.thumbnails.medium.url}`}
                 alt=""
               />
-              <span className="absolute bottom-0 right-1 rounded-sm text-white bg-black text-xs p-px mb-1">
-                {i.contentDetails.duration.match(/\d+/g).join(":")}
+              <span className="absolute bottom-0 right-1 rounded-sm text-white bg-black text-xs px-0.5 mb-1">
+                {this.videoDuration(i.contentDetails.duration)}
               </span>
             </div>
             <div className="pt-4 ">

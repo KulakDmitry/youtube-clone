@@ -22,6 +22,8 @@ class MainVideoPage extends Component {
       handleModalSettings,
       visibleApps,
       visibleSettings,
+      handleChoose,
+      state,
     } = this.props;
     return (
       <div>
@@ -34,12 +36,27 @@ class MainVideoPage extends Component {
         />
         {!openSideBar && (
           <div className="flex fixed flex-col w-60 border-gray-400 mt-14 text-sm z-30 bg-white h-screen ">
-            <button className="flex items-center px-6 py-2 bg-gray-200 hover:bg-gray-300 font-semibold">
+            <button
+              onClick={() => handleChoose("home")}
+              className={
+                state.isChoose === "home"
+                  ? "flex items-center px-6 py-2 bg-gray-200 hover:bg-gray-300 font-semibold"
+                  : "flex items-center px-6 py-2 hover:bg-gray-100 font-light"
+              }
+            >
+              {/*<button onClick={() => this.setState({activeBtnId: 'button2'})} className={this.state.activeBtnId === 'button2' ? 'active' : null}/>*/}
               <HomeButton className="w-5 h-6 mr-5" />
               <span>Home</span>
             </button>
 
-            <button className="flex items-center px-6 py-2 hover:bg-gray-100 font-light">
+            <button
+              onClick={() => handleChoose("explore")}
+              className={
+                state.isChoose === "explore"
+                  ? "flex items-center px-6 py-2 bg-gray-200 hover:bg-gray-300 font-semibold"
+                  : "flex items-center px-6 py-2 hover:bg-gray-100 font-light"
+              }
+            >
               <ExploreButton className="w-5 h-6 mr-5" />
               <span>Explore</span>
             </button>
@@ -225,7 +242,12 @@ class MainVideoPage extends Component {
           </div>
           <div className="w-1/3 pl-7">
             <div className="flex mb-2 cursor-pointer">
-              <img src="https://picsum.photos/180/100" alt="" />
+              <div className="relative">
+                <img src="https://picsum.photos/180/100" alt="" />
+                <span className="absolute bottom-1 right-1 bg-black text-white text-xs font-medium rounded-sm px-0.5">
+                  12:12
+                </span>
+              </div>
               <p className="flex flex-col px-4 relative">
                 <span className="text-sm font-semibold">
                   Lorem ipsum dolor sit amet, consectetur.
@@ -233,14 +255,16 @@ class MainVideoPage extends Component {
                 <span className="text-xs text-gray-500 my-1 ">channelName</span>
                 <span className="text-xs text-gray-500">
                   48K view / 1 month ago
-                </span>
-                <span className="absolute bottom-1 right-64 mr-1 bg-black text-white text-xs font-medium rounded-sm px-0.5">
-                  12:12
                 </span>
               </p>
             </div>
             <div className="flex mb-2 cursor-pointer">
-              <img src="https://picsum.photos/180/100" alt="" />
+              <div className="relative">
+                <img src="https://picsum.photos/180/100" alt="" />
+                <span className="absolute bottom-1 right-1 bg-black text-white text-xs font-medium rounded-sm px-0.5">
+                  12:12
+                </span>
+              </div>
               <p className="flex flex-col px-4 relative">
                 <span className="text-sm font-semibold">
                   Lorem ipsum dolor sit amet, consectetur.
@@ -248,14 +272,16 @@ class MainVideoPage extends Component {
                 <span className="text-xs text-gray-500 my-1 ">channelName</span>
                 <span className="text-xs text-gray-500">
                   48K view / 1 month ago
-                </span>
-                <span className="absolute bottom-1 right-64 mr-1 bg-black text-white text-xs font-medium rounded-sm px-0.5">
-                  12:12
                 </span>
               </p>
             </div>
             <div className="flex mb-2 cursor-pointer">
-              <img src="https://picsum.photos/180/100" alt="" />
+              <div className="relative">
+                <img src="https://picsum.photos/180/100" alt="" />
+                <span className="absolute bottom-1 right-1 bg-black text-white text-xs font-medium rounded-sm px-0.5">
+                  12:12
+                </span>
+              </div>
               <p className="flex flex-col px-4 relative">
                 <span className="text-sm font-semibold">
                   Lorem ipsum dolor sit amet, consectetur.
@@ -263,14 +289,16 @@ class MainVideoPage extends Component {
                 <span className="text-xs text-gray-500 my-1 ">channelName</span>
                 <span className="text-xs text-gray-500">
                   48K view / 1 month ago
-                </span>
-                <span className="absolute bottom-1 right-64 mr-1 bg-black text-white text-xs font-medium rounded-sm px-0.5">
-                  12:12
                 </span>
               </p>
             </div>
             <div className="flex mb-2 cursor-pointer">
-              <img src="https://picsum.photos/180/100" alt="" />
+              <div className="relative">
+                <img src="https://picsum.photos/180/100" alt="" />
+                <span className="absolute bottom-1 right-1 bg-black text-white text-xs font-medium rounded-sm px-0.5">
+                  12:12
+                </span>
+              </div>
               <p className="flex flex-col px-4 relative">
                 <span className="text-sm font-semibold">
                   Lorem ipsum dolor sit amet, consectetur.
@@ -278,14 +306,16 @@ class MainVideoPage extends Component {
                 <span className="text-xs text-gray-500 my-1 ">channelName</span>
                 <span className="text-xs text-gray-500">
                   48K view / 1 month ago
-                </span>
-                <span className="absolute bottom-1 right-64 mr-1 bg-black text-white text-xs font-medium rounded-sm px-0.5">
-                  12:12
                 </span>
               </p>
             </div>
             <div className="flex mb-2 cursor-pointer">
-              <img src="https://picsum.photos/180/100" alt="" />
+              <div className="relative">
+                <img src="https://picsum.photos/180/100" alt="" />
+                <span className="absolute bottom-1 right-1 bg-black text-white text-xs font-medium rounded-sm px-0.5">
+                  12:12
+                </span>
+              </div>
               <p className="flex flex-col px-4 relative">
                 <span className="text-sm font-semibold">
                   Lorem ipsum dolor sit amet, consectetur.
@@ -293,14 +323,16 @@ class MainVideoPage extends Component {
                 <span className="text-xs text-gray-500 my-1 ">channelName</span>
                 <span className="text-xs text-gray-500">
                   48K view / 1 month ago
-                </span>
-                <span className="absolute bottom-1 right-64 mr-1 bg-black text-white text-xs font-medium rounded-sm px-0.5">
-                  12:12
                 </span>
               </p>
             </div>
             <div className="flex mb-2 cursor-pointer">
-              <img src="https://picsum.photos/180/100" alt="" />
+              <div className="relative">
+                <img src="https://picsum.photos/180/100" alt="" />
+                <span className="absolute bottom-1 right-1 bg-black text-white text-xs font-medium rounded-sm px-0.5">
+                  12:12
+                </span>
+              </div>
               <p className="flex flex-col px-4 relative">
                 <span className="text-sm font-semibold">
                   Lorem ipsum dolor sit amet, consectetur.
@@ -308,14 +340,16 @@ class MainVideoPage extends Component {
                 <span className="text-xs text-gray-500 my-1 ">channelName</span>
                 <span className="text-xs text-gray-500">
                   48K view / 1 month ago
-                </span>
-                <span className="absolute bottom-1 right-64 mr-1 bg-black text-white text-xs font-medium rounded-sm px-0.5">
-                  12:12
                 </span>
               </p>
             </div>
             <div className="flex mb-2 cursor-pointer">
-              <img src="https://picsum.photos/180/100" alt="" />
+              <div className="relative">
+                <img src="https://picsum.photos/180/100" alt="" />
+                <span className="absolute bottom-1 right-1 bg-black text-white text-xs font-medium rounded-sm px-0.5">
+                  12:12
+                </span>
+              </div>
               <p className="flex flex-col px-4 relative">
                 <span className="text-sm font-semibold">
                   Lorem ipsum dolor sit amet, consectetur.
@@ -323,14 +357,16 @@ class MainVideoPage extends Component {
                 <span className="text-xs text-gray-500 my-1 ">channelName</span>
                 <span className="text-xs text-gray-500">
                   48K view / 1 month ago
-                </span>
-                <span className="absolute bottom-1 right-64 mr-1 bg-black text-white text-xs font-medium rounded-sm px-0.5">
-                  12:12
                 </span>
               </p>
             </div>
             <div className="flex mb-2 cursor-pointer">
-              <img src="https://picsum.photos/180/100" alt="" />
+              <div className="relative">
+                <img src="https://picsum.photos/180/100" alt="" />
+                <span className="absolute bottom-1 right-1 bg-black text-white text-xs font-medium rounded-sm px-0.5">
+                  12:12
+                </span>
+              </div>
               <p className="flex flex-col px-4 relative">
                 <span className="text-sm font-semibold">
                   Lorem ipsum dolor sit amet, consectetur.
@@ -338,14 +374,16 @@ class MainVideoPage extends Component {
                 <span className="text-xs text-gray-500 my-1 ">channelName</span>
                 <span className="text-xs text-gray-500">
                   48K view / 1 month ago
-                </span>
-                <span className="absolute bottom-1 right-64 mr-1 bg-black text-white text-xs font-medium rounded-sm px-0.5">
-                  12:12
                 </span>
               </p>
             </div>
             <div className="flex mb-2 cursor-pointer">
-              <img src="https://picsum.photos/180/100" alt="" />
+              <div className="relative">
+                <img src="https://picsum.photos/180/100" alt="" />
+                <span className="absolute bottom-1 right-1 bg-black text-white text-xs font-medium rounded-sm px-0.5">
+                  12:12
+                </span>
+              </div>
               <p className="flex flex-col px-4 relative">
                 <span className="text-sm font-semibold">
                   Lorem ipsum dolor sit amet, consectetur.
@@ -353,14 +391,16 @@ class MainVideoPage extends Component {
                 <span className="text-xs text-gray-500 my-1 ">channelName</span>
                 <span className="text-xs text-gray-500">
                   48K view / 1 month ago
-                </span>
-                <span className="absolute bottom-1 right-64 mr-1 bg-black text-white text-xs font-medium rounded-sm px-0.5">
-                  12:12
                 </span>
               </p>
             </div>
             <div className="flex mb-2 cursor-pointer">
-              <img src="https://picsum.photos/180/100" alt="" />
+              <div className="relative">
+                <img src="https://picsum.photos/180/100" alt="" />
+                <span className="absolute bottom-1 right-1 bg-black text-white text-xs font-medium rounded-sm px-0.5">
+                  12:12
+                </span>
+              </div>
               <p className="flex flex-col px-4 relative">
                 <span className="text-sm font-semibold">
                   Lorem ipsum dolor sit amet, consectetur.
@@ -368,14 +408,16 @@ class MainVideoPage extends Component {
                 <span className="text-xs text-gray-500 my-1 ">channelName</span>
                 <span className="text-xs text-gray-500">
                   48K view / 1 month ago
-                </span>
-                <span className="absolute bottom-1 right-64 mr-1 bg-black text-white text-xs font-medium rounded-sm px-0.5">
-                  12:12
                 </span>
               </p>
             </div>
             <div className="flex mb-2 cursor-pointer">
-              <img src="https://picsum.photos/180/100" alt="" />
+              <div className="relative">
+                <img src="https://picsum.photos/180/100" alt="" />
+                <span className="absolute bottom-1 right-1 bg-black text-white text-xs font-medium rounded-sm px-0.5">
+                  12:12
+                </span>
+              </div>
               <p className="flex flex-col px-4 relative">
                 <span className="text-sm font-semibold">
                   Lorem ipsum dolor sit amet, consectetur.
@@ -383,14 +425,16 @@ class MainVideoPage extends Component {
                 <span className="text-xs text-gray-500 my-1 ">channelName</span>
                 <span className="text-xs text-gray-500">
                   48K view / 1 month ago
-                </span>
-                <span className="absolute bottom-1 right-64 mr-1 bg-black text-white text-xs font-medium rounded-sm px-0.5">
-                  12:12
                 </span>
               </p>
             </div>
             <div className="flex mb-2 cursor-pointer">
-              <img src="https://picsum.photos/180/100" alt="" />
+              <div className="relative">
+                <img src="https://picsum.photos/180/100" alt="" />
+                <span className="absolute bottom-1 right-1 bg-black text-white text-xs font-medium rounded-sm px-0.5">
+                  12:12
+                </span>
+              </div>
               <p className="flex flex-col px-4 relative">
                 <span className="text-sm font-semibold">
                   Lorem ipsum dolor sit amet, consectetur.
@@ -398,9 +442,6 @@ class MainVideoPage extends Component {
                 <span className="text-xs text-gray-500 my-1 ">channelName</span>
                 <span className="text-xs text-gray-500">
                   48K view / 1 month ago
-                </span>
-                <span className="absolute bottom-1 right-64 mr-1 bg-black text-white text-xs font-medium rounded-sm px-0.5">
-                  12:12
                 </span>
               </p>
             </div>
