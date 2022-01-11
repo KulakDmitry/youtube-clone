@@ -1,11 +1,11 @@
-import "./App.css";
 import Header from "./components/Header";
 import MainPage from "./components/MainPage";
 import VideoContent from "./components/VideoContent";
 import React, { Component } from "react";
-import ModalYouTubeApps from "./components/ModalYouTubeApps";
-import ModalSettings from "./components/ModalSettings";
+import ModalYouTubeApps from "./components/ModalButtons/ModalYouTubeApps";
+import ModalSettings from "./components/ModalButtons/ModalSettings";
 import MainVideoPage from "./components/MainVideoPage";
+import { Route, BrowserRouter, Routes } from "react-router-dom";
 
 const api_key = "AIzaSyDq2njpwxnbPNnIfM9j8ho_Pd8gR8NHGYw";
 const videoData = "https://www.googleapis.com/youtube/v3/videos?";
@@ -53,7 +53,7 @@ class App extends Component {
           key: api_key,
           part: "snippet, contentDetails, statistics",
           chart: "mostPopular",
-          maxResults: 3,
+          maxResults: 11,
           regionCode: "US",
         })
     )
@@ -86,26 +86,45 @@ class App extends Component {
   render() {
     const { visibleYoutubeApps, visibleSettings, openSideBar } = this.state;
     return (
-      <div className="App">
-        {/*<Header*/}
-        {/*  handleSideBar={this.handleSideBar}*/}
-        {/*  handleModalApps={this.handleModalYouTubeApps}*/}
-        {/*  handleModalSettings={this.handleModalSettings}*/}
-        {/*  visibleApps={visibleYoutubeApps}*/}
-        {/*  visibleSettings={visibleSettings}*/}
-        {/*/>*/}
-        <MainVideoPage
-          openSideBar={openSideBar}
-          handleSideBar={this.handleSideBar}
-          handleModalApps={this.handleModalYouTubeApps}
-          handleModalSettings={this.handleModalSettings}
-          visibleApps={visibleYoutubeApps}
-          visibleSettings={visibleSettings}
-          handleChoose={this.handleChoose}
-          state={this.state}
-        />
-        {/*<MainPage state={this.state} handleChoose={this.handleChoose} />*/}
-      </div>
+      <BrowserRouter>
+        <div className="App">
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <Header
+                    handleSideBar={this.handleSideBar}
+                    handleModalApps={this.handleModalYouTubeApps}
+                    handleModalSettings={this.handleModalSettings}
+                    visibleApps={visibleYoutubeApps}
+                    visibleSettings={visibleSettings}
+                  />
+                  <MainPage
+                    state={this.state}
+                    handleChoose={this.handleChoose}
+                  />
+                </>
+              }
+            />
+            <Route
+              path="/:video"
+              element={
+                <MainVideoPage
+                  openSideBar={openSideBar}
+                  handleSideBar={this.handleSideBar}
+                  handleModalApps={this.handleModalYouTubeApps}
+                  handleModalSettings={this.handleModalSettings}
+                  visibleApps={visibleYoutubeApps}
+                  visibleSettings={visibleSettings}
+                  handleChoose={this.handleChoose}
+                  state={this.state}
+                />
+              }
+            />
+          </Routes>
+        </div>
+      </BrowserRouter>
     );
   }
 }

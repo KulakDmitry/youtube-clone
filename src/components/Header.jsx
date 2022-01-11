@@ -7,8 +7,9 @@ import { ReactComponent as AppsLogo } from "../icons/apps.svg";
 import { ReactComponent as SettingsLogo } from "../icons/three-dots-setings.svg";
 import { ReactComponent as ProfileLogo } from "../icons/profile-icon.svg";
 import { ReactComponent as SearchButtonLogo } from "../icons/search-button.svg";
-import ModalYouTubeApps from "./ModalYouTubeApps";
-import ModalSettings from "./ModalSettings";
+import ModalYouTubeApps from "./ModalButtons/ModalYouTubeApps";
+import ModalSettings from "./ModalButtons/ModalSettings";
+import { Link } from "react-router-dom";
 
 class Header extends Component {
   render() {
@@ -25,9 +26,11 @@ class Header extends Component {
           <div className="flex items-center w-1/4">
             <BurgerMenuIcon
               onClick={handleSideBar}
-              className="w-6 ml-6 mt-1 cursor-pointer"
+              className="w-6 ml-6 cursor-pointer"
             />
-            <YoutubeLogo className="w-32 h-14 ml-2 cursor-pointer" />
+            <Link to="/">
+              <YoutubeLogo className="w-32 h-14 ml-2 cursor-pointer" />
+            </Link>
           </div>
           <div className="flex items-center w-1/2">
             <input

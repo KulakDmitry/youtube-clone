@@ -12,6 +12,7 @@ import { ReactComponent as GamingButton } from "../icons/gaming-icon.svg";
 import { ReactComponent as NewsButton } from "../icons/news-icon.svg";
 import { ReactComponent as LiveButton } from "../icons/live-icon.svg";
 import { ReactComponent as VRButton } from "../icons/360-video-icon.svg";
+import { Link } from "react-router-dom";
 
 class MainVideoPage extends Component {
   render() {
@@ -36,7 +37,8 @@ class MainVideoPage extends Component {
         />
         {!openSideBar && (
           <div className="flex fixed flex-col w-60 border-gray-400 mt-14 text-sm z-30 bg-white h-screen ">
-            <button
+            <Link
+              to="/"
               onClick={() => handleChoose("home")}
               className={
                 state.isChoose === "home"
@@ -44,10 +46,9 @@ class MainVideoPage extends Component {
                   : "flex items-center px-6 py-2 hover:bg-gray-100 font-light"
               }
             >
-              {/*<button onClick={() => this.setState({activeBtnId: 'button2'})} className={this.state.activeBtnId === 'button2' ? 'active' : null}/>*/}
               <HomeButton className="w-5 h-6 mr-5" />
               <span>Home</span>
-            </button>
+            </Link>
 
             <button
               onClick={() => handleChoose("explore")}

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class VideoContent extends Component {
   viewCount = (str) => {
@@ -106,11 +107,13 @@ class VideoContent extends Component {
     return (
       <div
         className={` ${
-          state.openSideBar ? "ml-64" : "ml-16"
-        } pt-32 bg-gray-50 h-full grid gap-x-4 gap-y-8 grid-cols-4 grid-rows-auto p-14`}
+          state.openSideBar
+            ? "ml-64 grid gap-x-4 gap-y-8 grid-cols-4 grid-rows-auto"
+            : "ml-16 grid gap-x-4 gap-y-8 grid-cols-5 grid-rows-auto"
+        } pt-32 bg-gray-50 h-full p-14`}
       >
         {state.video.map((i) => (
-          <div key={i.id}>
+          <Link to="/video" key={i.id}>
             <div className="relative">
               <img
                 className="w-full"
@@ -145,7 +148,7 @@ class VideoContent extends Component {
                 </span>
               </p>
             </div>
-          </div>
+          </Link>
         ))}
 
         {/*<div>*/}

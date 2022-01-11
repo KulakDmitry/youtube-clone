@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { ReactComponent as YoutubeTVIcon } from "../icons/youtube-TV.svg";
-import { ReactComponent as YoutubeMusicIcon } from "../icons/youtube-music.svg";
-import { ReactComponent as YoutubeKidsIcon } from "../icons/youtube-kids.svg";
-import { ReactComponent as YoutubeArtistsIcon } from "../icons/youtube-artists.svg";
+import { ReactComponent as YoutubeTVIcon } from "../../icons/youtube-TV.svg";
+import { ReactComponent as YoutubeMusicIcon } from "../../icons/youtube-music.svg";
+import { ReactComponent as YoutubeKidsIcon } from "../../icons/youtube-kids.svg";
+import { ReactComponent as YoutubeArtistsIcon } from "../../icons/youtube-artists.svg";
 
 class ModalYouTubeApps extends Component {
   render() {
