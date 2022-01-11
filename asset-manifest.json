@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/youtube-clone/static/css/main.9c84a3d6.css",
-    "main.js": "/youtube-clone/static/js/main.e796f9ed.js",
+    "main.js": "/youtube-clone/static/js/main.f7b60e0f.js",
     "static/media/subscribe-youtube.svg": "/youtube-clone/static/media/subscribe-youtube.f487d46152457cdd4a9c89882218c0ac.svg",
     "static/media/YouTubeLogo.svg": "/youtube-clone/static/media/YouTubeLogo.9dce52e409158b9b52fb8d048ec295b6.svg",
     "static/media/live-icon.svg": "/youtube-clone/static/media/live-icon.fb9f92f42b649cc6a1a67a361d786d50.svg",
@@ -28,10 +28,10 @@
     "static/media/apps.svg": "/youtube-clone/static/media/apps.d9e1c4bb87d258e97c4a24d34d1faf23.svg",
     "static/media/burger-menu-icon.svg": "/youtube-clone/static/media/burger-menu-icon.b74c5d8dfa35629abd12025ec121b0b8.svg",
     "main.9c84a3d6.css.map": "/youtube-clone/static/css/main.9c84a3d6.css.map",
-    "main.e796f9ed.js.map": "/youtube-clone/static/js/main.e796f9ed.js.map"
+    "main.f7b60e0f.js.map": "/youtube-clone/static/js/main.f7b60e0f.js.map"
   },
   "entrypoints": [
     "static/css/main.9c84a3d6.css",
-    "static/js/main.e796f9ed.js"
+    "static/js/main.f7b60e0f.js"
   ]
 }
