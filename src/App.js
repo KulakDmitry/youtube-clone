@@ -1,13 +1,10 @@
 import Header from "./components/Header";
 import MainPage from "./components/MainPage";
-import VideoContent from "./components/VideoContent";
 import React, { Component } from "react";
-import ModalYouTubeApps from "./components/ModalButtons/ModalYouTubeApps";
-import ModalSettings from "./components/ModalButtons/ModalSettings";
 import MainVideoPage from "./components/MainVideoPage";
-import { Route, BrowserRouter, Routes } from "react-router-dom";
+import { Route, Routes, HashRouter } from "react-router-dom";
 
-const api_key = "AIzaSyDq2njpwxnbPNnIfM9j8ho_Pd8gR8NHGYw";
+const api_key = process.env.REACT_APP_API_KEY;
 const videoData = "https://www.googleapis.com/youtube/v3/videos?";
 const channelData = "https://www.googleapis.com/youtube/v3/channels?";
 
@@ -86,7 +83,7 @@ class App extends Component {
   render() {
     const { visibleYoutubeApps, visibleSettings, openSideBar } = this.state;
     return (
-      <BrowserRouter>
+      <HashRouter>
         <div className="App">
           <Routes>
             <Route
@@ -124,7 +121,7 @@ class App extends Component {
             />
           </Routes>
         </div>
-      </BrowserRouter>
+      </HashRouter>
     );
   }
 }
