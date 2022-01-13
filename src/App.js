@@ -3,6 +3,12 @@ import MainPage from "./components/MainPage";
 import React, { Component } from "react";
 import MainVideoPage from "./components/MainVideoPage";
 import { Route, Routes, HashRouter } from "react-router-dom";
+import ExplorePage from "./components/ExplorePage";
+import VideoContent from "./components/VideoContent";
+import * as numeral from "numeral";
+import * as moment from "moment";
+import * as momentDurationFormatSetup from "moment-duration-format";
+const { DateTime } = require("luxon");
 
 const api_key = process.env.REACT_APP_API_KEY;
 const videoData = "https://www.googleapis.com/youtube/v3/videos?";
@@ -50,7 +56,7 @@ class App extends Component {
           key: api_key,
           part: "snippet, contentDetails, statistics",
           chart: "mostPopular",
-          maxResults: 11,
+          maxResults: 3,
           regionCode: "US",
         })
     )
@@ -80,6 +86,35 @@ class App extends Component {
     };
   }
 
+  viewCount = (str) => {
+    let num;
+
+    if (parseInt(str) > 1000) {
+      num = numeral(str).format("0a").toUpperCase();
+    }
+
+    if (parseInt(str) > 1000000) {
+      num = numeral(str).format("0.0a").toUpperCase();
+    }
+
+    return num;
+  };
+
+  videoDuration = (duration) =>
+    moment.duration(duration).format("h:mm:ss").padStart(4, "0:0");
+
+  timeSinceLoadingVideo = (date) => {
+    const units = ["year", "month", "day", "hour", "minute", "second"];
+    let dateTime = DateTime.fromISO(date);
+    const diff = dateTime.diffNow().shiftTo(...units);
+    const unit = units.find((unit) => diff.get(unit) !== 0) || "second";
+
+    const relativeFormatter = new Intl.RelativeTimeFormat("en", {
+      numeric: "auto",
+    });
+    return relativeFormatter.format(Math.trunc(diff.as(unit)), unit);
+  };
+
   render() {
     const { visibleYoutubeApps, visibleSettings, openSideBar } = this.state;
     return (
@@ -101,6 +136,12 @@ class App extends Component {
                     state={this.state}
                     handleChoose={this.handleChoose}
                   />
+                  <VideoContent
+                    state={this.state}
+                    timeSinceLoadingVideo={this.timeSinceLoadingVideo}
+                    videoDuration={this.videoDuration}
+                    viewCount={this.viewCount}
+                  />
                 </>
               }
             />
@@ -116,6 +157,24 @@ class App extends Component {
                   visibleSettings={visibleSettings}
                   handleChoose={this.handleChoose}
                   state={this.state}
+                />
+              }
+            />
+            <Route
+              path="/explore"
+              element={
+                <ExplorePage
+                  openSideBar={openSideBar}
+                  handleSideBar={this.handleSideBar}
+                  handleModalApps={this.handleModalYouTubeApps}
+                  handleModalSettings={this.handleModalSettings}
+                  visibleApps={visibleYoutubeApps}
+                  visibleSettings={visibleSettings}
+                  handleChoose={this.handleChoose}
+                  state={this.state}
+                  timeSinceLoadingVideo={this.timeSinceLoadingVideo}
+                  videoDuration={this.videoDuration}
+                  viewCount={this.viewCount}
                 />
               }
             />

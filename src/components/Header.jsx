@@ -22,39 +22,39 @@ class Header extends Component {
     } = this.props;
     return (
       <>
-        <div className="flex fixed w-full bg-white z-20">
-          <div className="flex items-center w-1/4">
+        <div className="flex justify-between fixed w-full bg-white z-20">
+          <div className="flex items-center md:w-1/4">
             <BurgerMenuIcon
               onClick={handleSideBar}
-              className="w-6 ml-6 cursor-pointer"
+              className="hidden md:block md:w-6 md:ml-6 md:cursor-pointer"
             />
             <Link to="/">
-              <YoutubeLogo className="w-32 h-14 ml-2 cursor-pointer" />
+              <YoutubeLogo className="w-20 h-14 cursor-pointer md:w-32 md:ml-2" />
             </Link>
           </div>
-          <div className="flex items-center w-1/2">
+          <div className="flex items-center  md:w-1/2">
             <input
               placeholder="Search"
               className="border p-2 pl-4 w-full focus:outline-none focus:border-blue-700 shadow-inner"
               type="text"
             />
-            <button className="border p-2 px-6 bg-gray-100 hover:bg-gray-200">
-              <SearchButtonLogo className="w-6" />
+            <button className="hidden md:block md:border md:p-2 md:px-6 md:bg-gray-100 md:hover:bg-gray-200">
+              <SearchButtonLogo className="w-4 md:w-6" />
             </button>
-            <SearchVoiceLogo className="ml-2 w-8 cursor-pointer" />
+            <SearchVoiceLogo className="hidden md:block md:ml-2 md:w-8 md:cursor-pointer" />
           </div>
-          <div className="flex justify-end mr-8 items-center w-1/4">
+          <div className="flex justify-end items-center  md:w-1/4 md:mr-8">
             <AppsLogo
-              className="ml-4 w-6 cursor-pointer"
+              className="hidden md:block md:ml-4 md:w-6 md:cursor-pointer"
               onClick={handleModalApps}
             />
             <SettingsLogo
-              className="ml-4 w-6 cursor-pointer"
+              className="hidden md:block md:ml-4 md:w-6 md:cursor-pointer"
               onClick={handleModalSettings}
             />
-            <div className="ml-4 border border-blue-600 p-2 flex items-center cursor-pointer">
+            <div className=" md:ml-4 md:border md:border-blue-600 md:p-2 md:flex md:items-center md:cursor-pointer">
               <ProfileLogo className="w-6 cursor-pointer mr-2 " />
-              <p className="text-blue-600">SIGN IN</p>
+              <p className="hidden md:block md:text-blue-600">SIGN IN</p>
             </div>
           </div>
         </div>

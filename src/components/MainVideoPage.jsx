@@ -5,7 +5,6 @@ import { ReactComponent as DislikeIcon } from "../icons/dislike-icon.svg";
 import { ReactComponent as SubscribeIcon } from "../icons/subscribe-youtube.svg";
 import { ReactComponent as HomeButton } from "../icons/home.svg";
 import { ReactComponent as ExploreButton } from "../icons/explore.svg";
-import { ReactComponent as YoutubeLogo } from "../icons/YouTubeLogo.svg";
 import { ReactComponent as MusicButton } from "../icons/music-icon.svg";
 import { ReactComponent as SportButton } from "../icons/sport-icon.svg";
 import { ReactComponent as GamingButton } from "../icons/gaming-icon.svg";
@@ -50,7 +49,8 @@ class MainVideoPage extends Component {
               <span>Home</span>
             </Link>
 
-            <button
+            <Link
+              to="/explore"
               onClick={() => handleChoose("explore")}
               className={
                 state.isChoose === "explore"
@@ -60,7 +60,7 @@ class MainVideoPage extends Component {
             >
               <ExploreButton className="w-5 h-6 mr-5" />
               <span>Explore</span>
-            </button>
+            </Link>
 
             <p className="ml-5 pt-3 text-gray-500 border-t">BEST OF YOUTUBE</p>
 
