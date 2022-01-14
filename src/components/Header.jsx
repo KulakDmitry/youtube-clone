@@ -14,11 +14,14 @@ import { Link } from "react-router-dom";
 class Header extends Component {
   render() {
     const {
+      state,
+      handleSearchClick,
       handleSideBar,
       handleModalApps,
       handleModalSettings,
       visibleApps,
       visibleSettings,
+      handleSearch,
     } = this.props;
     return (
       <>
@@ -37,10 +40,15 @@ class Header extends Component {
               placeholder="Search"
               className="border p-2 pl-4 w-full focus:outline-none focus:border-blue-700 shadow-inner"
               type="text"
+              onChange={handleSearch}
             />
-            <button className="hidden md:block md:border md:p-2 md:px-6 md:bg-gray-100 md:hover:bg-gray-200">
+            <Link
+              to="/search"
+              onClick={handleSearchClick}
+              className="hidden md:block md:border md:p-2 md:px-6 md:bg-gray-100 md:hover:bg-gray-200"
+            >
               <SearchButtonLogo className="w-4 md:w-6" />
-            </button>
+            </Link>
             <SearchVoiceLogo className="hidden md:block md:ml-2 md:w-8 md:cursor-pointer" />
           </div>
           <div className="flex justify-end items-center  md:w-1/4 md:mr-8">

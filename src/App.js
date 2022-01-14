@@ -8,11 +8,13 @@ import VideoContent from "./components/VideoContent";
 import * as numeral from "numeral";
 import * as moment from "moment";
 import * as momentDurationFormatSetup from "moment-duration-format";
+import SearchPage from "./components/SearchPage";
 const { DateTime } = require("luxon");
 
 const api_key = process.env.REACT_APP_API_KEY;
 const videoData = "https://www.googleapis.com/youtube/v3/videos?";
 const channelData = "https://www.googleapis.com/youtube/v3/channels?";
+const searchData = "https://www.googleapis.com/youtube/v3/search?";
 
 class App extends Component {
   constructor(props) {
@@ -23,8 +25,40 @@ class App extends Component {
       visibleSettings: false,
       video: [],
       isChoose: false,
+      searchText: "",
+      searchVideoData: [],
     };
   }
+
+  handleSearch = (e) => {
+    this.setState({
+      searchText: e.target.value,
+    });
+  };
+
+  handleSearchClick = () => {
+    this.getSearchData().then();
+  };
+
+  getSearchData = () =>
+    fetch(
+      searchData +
+        new URLSearchParams({
+          key: api_key,
+          part: "snippet",
+          maxResults: 3,
+          regionCode: "US",
+          q: this.state.searchText,
+        })
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        data.items.forEach((item) => this.getChannelIcon(item));
+        this.setState({
+          searchVideoData: data.items,
+        });
+      })
+      .catch((err) => console.log(err));
 
   handleChoose = (id) => {
     this.setState({
@@ -49,6 +83,21 @@ class App extends Component {
     });
   };
 
+  getChannelIcon = (video) => {
+    fetch(
+      channelData +
+        new URLSearchParams({
+          key: api_key,
+          part: "snippet",
+          id: video.snippet.channelId,
+        })
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        video.channelThumbnail = data.items[0].snippet.thumbnails.default.url;
+      });
+  };
+
   componentDidMount() {
     fetch(
       videoData +
@@ -62,28 +111,13 @@ class App extends Component {
     )
       .then((res) => res.json())
       .then((data) => {
-        data.items.forEach((item) => getChannelIcon(item));
+        data.items.forEach((item) => this.getChannelIcon(item));
         this.setState({
           video: data.items,
         });
       })
 
       .catch((err) => console.log(err));
-
-    const getChannelIcon = (video) => {
-      fetch(
-        channelData +
-          new URLSearchParams({
-            key: api_key,
-            part: "snippet",
-            id: video.snippet.channelId,
-          })
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          video.channelThumbnail = data.items[0].snippet.thumbnails.default.url;
-        });
-    };
   }
 
   viewCount = (str) => {
@@ -131,6 +165,9 @@ class App extends Component {
                     handleModalSettings={this.handleModalSettings}
                     visibleApps={visibleYoutubeApps}
                     visibleSettings={visibleSettings}
+                    handleSearchClick={this.handleSearchClick}
+                    state={this.state}
+                    handleSearch={this.handleSearch}
                   />
                   <MainPage
                     state={this.state}
@@ -149,6 +186,8 @@ class App extends Component {
               path="/:video"
               element={
                 <MainVideoPage
+                  handleSearchClick={this.handleSearchClick}
+                  handleSearch={this.handleSearch}
                   openSideBar={openSideBar}
                   handleSideBar={this.handleSideBar}
                   handleModalApps={this.handleModalYouTubeApps}
@@ -164,6 +203,8 @@ class App extends Component {
               path="/explore"
               element={
                 <ExplorePage
+                  handleSearchClick={this.handleSearchClick}
+                  handleSearch={this.handleSearch}
                   openSideBar={openSideBar}
                   handleSideBar={this.handleSideBar}
                   handleModalApps={this.handleModalYouTubeApps}
@@ -175,6 +216,26 @@ class App extends Component {
                   timeSinceLoadingVideo={this.timeSinceLoadingVideo}
                   videoDuration={this.videoDuration}
                   viewCount={this.viewCount}
+                />
+              }
+            />
+            <Route
+              path="/search"
+              element={
+                <SearchPage
+                  openSideBar={openSideBar}
+                  handleSideBar={this.handleSideBar}
+                  handleModalApps={this.handleModalYouTubeApps}
+                  handleModalSettings={this.handleModalSettings}
+                  visibleApps={visibleYoutubeApps}
+                  visibleSettings={visibleSettings}
+                  handleChoose={this.handleChoose}
+                  state={this.state}
+                  timeSinceLoadingVideo={this.timeSinceLoadingVideo}
+                  videoDuration={this.videoDuration}
+                  viewCount={this.viewCount}
+                  handleSearchClick={this.handleSearchClick}
+                  handleSearch={this.handleSearch}
                 />
               }
             />

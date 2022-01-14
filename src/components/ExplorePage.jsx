@@ -22,6 +22,8 @@ class ExplorePage extends Component {
       videoDuration,
       viewCount,
       timeSinceLoadingVideo,
+      handleSearch,
+      handleSearchClick,
     } = this.props;
 
     return (
@@ -32,6 +34,8 @@ class ExplorePage extends Component {
           handleModalSettings={handleModalSettings}
           visibleApps={visibleApps}
           visibleSettings={visibleSettings}
+          handleSearchClick={handleSearchClick}
+          handleSearch={handleSearch}
         />
         <MainPage state={state} handleChoose={handleChoose} />
         <div
