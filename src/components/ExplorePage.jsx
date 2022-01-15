@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import MainPage from "./MainPage";
 import Header from "./Header";
-import VideoContent from "./VideoContent";
 import { Link } from "react-router-dom";
 import { DateTime } from "luxon";
 import { ReactComponent as TrendIcon } from "../icons/fire-icon-trend.svg";
@@ -41,7 +40,7 @@ class ExplorePage extends Component {
         <div
           className={`${
             state.openSideBar ? "ml-64  pl-20 " : "ml-16  pl-48"
-          } bg-gray-50 pt-32`}
+          } bg-gray-50 pt-20`}
         >
           <div className="flex justify-between pr-[35%] pb-10 text-lg font-medium">
             <div className=" pr-24 pb-8 pl-6 pt-6 rounded bg-white hover:bg-gray-200 cursor-pointer">

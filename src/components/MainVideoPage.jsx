@@ -107,7 +107,8 @@ class MainVideoPage extends Component {
                 Lorem ipsum dolor sit amet.
               </p>
               <p className=" pl-4 md:p-0 md:pt-2 text-sm text-gray-500">
-                372,175 views / Jul 16, 2019
+                <span className="after:content-['_•'] mr-1">372,175 views</span>
+                <span>Jul 16, 2019</span>
               </p>
               <div className="flex justify-evenly pt-6 md:p-0 md:justify-end md:mr-32 text-sm ">
                 <button className="flex items-center mr-8">

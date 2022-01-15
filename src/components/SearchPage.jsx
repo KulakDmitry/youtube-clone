@@ -16,8 +16,6 @@ class SearchPage extends Component {
       handleModalSettings,
       visibleApps,
       visibleSettings,
-      videoDuration,
-      viewCount,
       timeSinceLoadingVideo,
     } = this.props;
     return (
@@ -32,57 +30,67 @@ class SearchPage extends Component {
           handleSearch={handleSearch}
         />
         <MainPage state={state} handleChoose={handleChoose} />
-
         <div
           className={` ${
-            state.openSideBar ? "flex flex-col ml-64 " : "flex flex-col ml-16 "
-          }  pt-20 md:pt-32 md:bg-gray-50 md:h-full md:p-14`}
+            state.openSideBar
+              ? "flex flex-col md:ml-64 md:p-14"
+              : "flex flex-col md:ml-16 md:p-52"
+          }  m-0 pt-20 md:pt-20 md:bg-gray-50 md:h-full `}
         >
-          <div className="pb-2 mb-8 border-b border-gray-300">
-            <button className=" flex items-center cursor-pointer">
-              <FilterIcon className="w-5 h-5" />
-              <span className="pl-3 text-gray-600 font-semibold text-sm">
-                FILTERS
-              </span>
-            </button>
-            <div className="p-20 fixed">filters options</div>
-          </div>
-          {state.searchVideoData.map((i) => (
-            <Link to="/video" key={i.id} className="flex mb-3">
-              <div className="relative">
-                <img
-                  className="w-80 h-52"
-                  src={`${i.snippet.thumbnails.medium.url}`}
-                  alt=""
-                />
-                <span className="absolute bottom-0 right-1 rounded-sm text-white bg-black text-xs px-0.5 mb-1">
-                  {/*{videoDuration(i.contentDetails.duration)}*/}
-                </span>
+          {state.searchVideoData.length ? (
+            <div>
+              <div className="pl-4 md:p-0 md:pb-2 mb-8 border-b border-gray-300">
+                <button className="flex items-center cursor-pointer">
+                  <FilterIcon className="w-5 h-5" />
+                  <span className="pl-3 text-gray-600 font-semibold text-sm">
+                    FILTERS
+                  </span>
+                </button>
               </div>
-              <div className="p-4 md:pt-4 w-[45%] ">
-                <p className="flex flex-col">
-                  <span className="text-sm font-semibold line-clamp-2">
-                    {i.snippet.title}
-                  </span>
-                  <span className="text-xs font-light">
-                    <span className="after:content-['_•'] mr-1">
-                      {/*{viewCount(i.statistics.viewCount)} views*/}
-                    </span>
-                    <span>{timeSinceLoadingVideo(i.snippet.publishedAt)}</span>
-                  </span>
-                  <span className="py-1 text-xs font-light flex items-center">
+              {state.searchVideoData.map((i) => (
+                <Link to="/video" key={i.id} className="px-2 md:p-0 flex mb-3">
+                  <div className="relative">
                     <img
-                      className="inline rounded-full mr-4 float-left w-10 h-10"
-                      src={`${i.channelThumbnail}`}
+                      className="w-32 h-20  md:w-80 md:h-48"
+                      src={`${i.snippet.thumbnails.medium.url}`}
                       alt=""
                     />
-                    {i.snippet.channelTitle}
-                  </span>
-                  <span>{i.snippet.description}</span>
-                </p>
-              </div>
-            </Link>
-          ))}
+                    <span className="absolute bottom-0 right-1 rounded-sm text-white bg-black text-xs px-0.5 mb-1">
+                      {/*{videoDuration(i.contentDetails.duration)}*/}
+                    </span>
+                  </div>
+                  <div className="pl-4 md:p-4 md:pt-4 md:w-[45%] w-[60%] ">
+                    <p className="flex flex-col">
+                      <span className="text-base font-semibold line-clamp-2">
+                        {i.snippet.title}
+                      </span>
+                      <span className="text-xs font-light pt-0.5 md:p-0 md:py-2">
+                        <span className="after:content-['_•'] mr-1">
+                          {/*{viewCount(i.statistics.viewCount)} views*/}
+                        </span>
+                        <span>
+                          {timeSinceLoadingVideo(i.snippet.publishedAt)}
+                        </span>
+                      </span>
+                      <span className="py-1 text-xs font-light flex items-center">
+                        <img
+                          className="hidden md:inline rounded-full mr-4 float-left w-10 h-10"
+                          src={`${i.channelThumbnail}`}
+                          alt=""
+                        />
+                        {i.snippet.channelTitle}
+                      </span>
+                      <span className="hidden md:block text-xs md:line-clamp-2">
+                        {i.snippet.description}
+                      </span>
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <span>not found</span>
+          )}
         </div>
       </div>
     );

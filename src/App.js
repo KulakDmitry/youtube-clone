@@ -2,13 +2,16 @@ import Header from "./components/Header";
 import MainPage from "./components/MainPage";
 import React, { Component } from "react";
 import MainVideoPage from "./components/MainVideoPage";
-import { Route, Routes, HashRouter } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import ExplorePage from "./components/ExplorePage";
 import VideoContent from "./components/VideoContent";
 import * as numeral from "numeral";
 import * as moment from "moment";
 import * as momentDurationFormatSetup from "moment-duration-format";
 import SearchPage from "./components/SearchPage";
+
+import MainPageTags from "./components/MainPageTags";
+
 const { DateTime } = require("luxon");
 
 const api_key = process.env.REACT_APP_API_KEY;
@@ -27,8 +30,20 @@ class App extends Component {
       isChoose: false,
       searchText: "",
       searchVideoData: [],
+      videoId: "",
+      searchVideoDuration: [],
+      searchVideoViews: [],
     };
   }
+
+  handleStartSearch = (e) => {
+    if (e.key !== "Enter") {
+      return;
+    }
+    this.setState({
+      searchText: e.target.value,
+    });
+  };
 
   handleSearch = (e) => {
     this.setState({
@@ -37,18 +52,40 @@ class App extends Component {
   };
 
   handleSearchClick = () => {
-    this.getSearchData().then();
+    const { searchText } = this.state;
+    this.setState({
+      searchVideoData: [],
+    });
+    this.getSearchData(searchText).then();
   };
 
-  getSearchData = () =>
+  getDataForSearchVideo = (video) => {
+    fetch(
+      videoData +
+        new URLSearchParams({
+          key: api_key,
+          part: "contentDetails, statistics",
+          id: video.items[0].id.videoId,
+        })
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        video.duration = data.items[0].contentDetails.duration;
+        video.views = data.items[0].statistics.viewCount;
+        console.log(video.duration);
+        console.log(video.views);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  getSearchData = (value) =>
     fetch(
       searchData +
         new URLSearchParams({
           key: api_key,
           part: "snippet",
-          maxResults: 3,
-          regionCode: "US",
-          q: this.state.searchText,
+          maxResults: 2,
+          q: value,
         })
     )
       .then((res) => res.json())
@@ -57,8 +94,18 @@ class App extends Component {
         this.setState({
           searchVideoData: data.items,
         });
+        let arr = [];
+        data.items.forEach((item) => arr.push(this.getVideoId(item)));
+        this.setState({
+          videoId: arr.join(", "),
+        });
+        data.items.forEach((item) => this.getDataForSearchVideo(item));
       })
       .catch((err) => console.log(err));
+
+  getVideoId = (video) => {
+    return video.id.videoId;
+  };
 
   handleChoose = (id) => {
     this.setState({
@@ -95,7 +142,8 @@ class App extends Component {
       .then((res) => res.json())
       .then((data) => {
         video.channelThumbnail = data.items[0].snippet.thumbnails.default.url;
-      });
+      })
+      .catch((err) => console.log(err));
   };
 
   componentDidMount() {
@@ -116,7 +164,6 @@ class App extends Component {
           video: data.items,
         });
       })
-
       .catch((err) => console.log(err));
   }
 
@@ -168,11 +215,14 @@ class App extends Component {
                     handleSearchClick={this.handleSearchClick}
                     state={this.state}
                     handleSearch={this.handleSearch}
+                    handleStartSearch={this.handleStartSearch}
+                    searchText={this.state.searchText}
                   />
                   <MainPage
                     state={this.state}
                     handleChoose={this.handleChoose}
                   />
+                  <MainPageTags state={this.state} />
                   <VideoContent
                     state={this.state}
                     timeSinceLoadingVideo={this.timeSinceLoadingVideo}

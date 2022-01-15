@@ -5,7 +5,7 @@ import { ReactComponent as YoutubeLogo } from "../icons/YouTubeLogo.svg";
 import { ReactComponent as SearchVoiceLogo } from "../icons/voice-search.svg";
 import { ReactComponent as AppsLogo } from "../icons/apps.svg";
 import { ReactComponent as SettingsLogo } from "../icons/three-dots-setings.svg";
-import { ReactComponent as ProfileLogo } from "../icons/profile-icon.svg";
+import { ReactComponent as ProfileLogo } from "../icons/prolifeIcon.svg";
 import { ReactComponent as SearchButtonLogo } from "../icons/search-button.svg";
 import ModalYouTubeApps from "./ModalButtons/ModalYouTubeApps";
 import ModalSettings from "./ModalButtons/ModalSettings";
@@ -14,8 +14,9 @@ import { Link } from "react-router-dom";
 class Header extends Component {
   render() {
     const {
-      state,
+      searchText,
       handleSearchClick,
+      handleStartSearch,
       handleSideBar,
       handleModalApps,
       handleModalSettings,
@@ -40,7 +41,9 @@ class Header extends Component {
               placeholder="Search"
               className="border p-2 pl-4 w-full focus:outline-none focus:border-blue-700 shadow-inner"
               type="text"
+              value={searchText}
               onChange={handleSearch}
+              onKeyDown={handleStartSearch}
             />
             <Link
               to="/search"
@@ -60,7 +63,7 @@ class Header extends Component {
               className="hidden md:block md:ml-4 md:w-6 md:cursor-pointer"
               onClick={handleModalSettings}
             />
-            <div className=" md:ml-4 md:border md:border-blue-600 md:p-2 md:flex md:items-center md:cursor-pointer">
+            <div className=" md:ml-4 md:border-2 md:border-blue-600 md:p-2 md:flex md:items-center md:cursor-pointer">
               <ProfileLogo className="w-6 cursor-pointer mr-2 " />
               <p className="hidden md:block md:text-blue-600">SIGN IN</p>
             </div>

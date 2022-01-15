@@ -12,7 +12,7 @@ class VideoContent extends Component {
           state.openSideBar
             ? "grid gap-x-4 gap-y-8 md:grid-cols-2 md:ml-64 lg:grid-cols-4"
             : "grid gap-x-4 gap-y-8 md:grid-cols-3 md:ml-16 lg:grid-cols-5 "
-        } pt-20 md:pt-32 md:bg-gray-50 md:h-full md:p-14`}
+        } pt-20 md:pt-6 md:bg-gray-50 md:h-full md:p-14`}
       >
         {state.video.map((i) => (
           <Link to="/video" key={i.id}>
