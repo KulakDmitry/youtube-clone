@@ -30,9 +30,7 @@ class App extends Component {
       isChoose: false,
       searchText: "",
       searchVideoData: [],
-      videoId: "",
-      searchVideoDuration: [],
-      searchVideoViews: [],
+      fetching: false,
     };
   }
 
@@ -65,15 +63,13 @@ class App extends Component {
         new URLSearchParams({
           key: api_key,
           part: "contentDetails, statistics",
-          id: video.items[0].id.videoId,
+          id: video.id.videoId,
         })
     )
       .then((res) => res.json())
       .then((data) => {
         video.duration = data.items[0].contentDetails.duration;
         video.views = data.items[0].statistics.viewCount;
-        console.log(video.duration);
-        console.log(video.views);
       })
       .catch((err) => console.log(err));
   };
@@ -84,22 +80,18 @@ class App extends Component {
         new URLSearchParams({
           key: api_key,
           part: "snippet",
-          maxResults: 2,
+          maxResults: 15,
           q: value,
         })
     )
       .then((res) => res.json())
       .then((data) => {
         data.items.forEach((item) => this.getChannelIcon(item));
+        data.items.forEach((item) => this.getDataForSearchVideo(item));
         this.setState({
           searchVideoData: data.items,
+          pageToken: data.nextPageToken,
         });
-        let arr = [];
-        data.items.forEach((item) => arr.push(this.getVideoId(item)));
-        this.setState({
-          videoId: arr.join(", "),
-        });
-        data.items.forEach((item) => this.getDataForSearchVideo(item));
       })
       .catch((err) => console.log(err));
 
@@ -110,6 +102,7 @@ class App extends Component {
   handleChoose = (id) => {
     this.setState({
       isChoose: id,
+      searchText: "",
     });
   };
 
@@ -153,7 +146,7 @@ class App extends Component {
           key: api_key,
           part: "snippet, contentDetails, statistics",
           chart: "mostPopular",
-          maxResults: 3,
+          maxResults: 2,
           regionCode: "US",
         })
     )
@@ -165,6 +158,54 @@ class App extends Component {
         });
       })
       .catch((err) => console.log(err));
+
+    document.addEventListener("scroll", this.handleScroll);
+  }
+
+  // componentWillUnmount() {
+  //   document.removeEventListener("scroll", this.handleScroll);
+  // }
+
+  handleScroll = (e) => {
+    if (
+      e.target.documentElement.scrollHeight -
+        (e.target.documentElement.scrollTop + window.innerHeight) <
+      100
+    ) {
+      console.log("scroll");
+      this.setState({
+        fetching: true,
+      });
+    }
+  };
+
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    const { searchVideoData, pageToken, searchText } = this.state;
+
+    if (this.fetching) {
+      fetch(
+        searchData +
+          new URLSearchParams({
+            key: api_key,
+            part: "snippet",
+            maxResults: 2,
+            q: searchText,
+            pageToken: pageToken,
+          })
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          data.items.forEach((item) => this.getChannelIcon(item));
+          data.items.forEach((item) => this.getDataForSearchVideo(item));
+          this.setState({
+            searchVideoData: [...searchVideoData, data.items],
+            pageToken: data.nextPageToken,
+          });
+        })
+        .finally(() => this.setState({ fetching: false }))
+        .catch((err) => console.log(err));
+    }
+    return true;
   }
 
   viewCount = (str) => {
