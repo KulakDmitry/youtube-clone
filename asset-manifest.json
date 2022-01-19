@@ -1,9 +1,11 @@
 {
   "files": {
-    "main.css": "/youtube-clone/static/css/main.635f92e1.css",
-    "main.js": "/youtube-clone/static/js/main.cca63c9e.js",
+    "main.css": "/youtube-clone/static/css/main.1b6a76e0.css",
+    "main.js": "/youtube-clone/static/js/main.32b5e05f.js",
+    "static/media/profileDefaultAvatar.jpg": "/youtube-clone/static/media/profileDefaultAvatar.5744bdd4e86b254d54b1.jpg",
     "static/media/sportsicon.svg": "/youtube-clone/static/media/sportsicon.d71c4b18c6b552f90421f8ac9250b4de.svg",
     "static/media/subscribe-youtube.svg": "/youtube-clone/static/media/subscribe-youtube.f487d46152457cdd4a9c89882218c0ac.svg",
+    "static/media/settings-icon.svg": "/youtube-clone/static/media/settings-icon.d1f12c2838fe47b49cafa3c482e7d570.svg",
     "static/media/YouTubeLogo.svg": "/youtube-clone/static/media/YouTubeLogo.9dce52e409158b9b52fb8d048ec295b6.svg",
     "static/media/live-icon.svg": "/youtube-clone/static/media/live-icon.fb9f92f42b649cc6a1a67a361d786d50.svg",
     "static/media/game-icon.svg": "/youtube-clone/static/media/game-icon.12901fd04f71336d03c3a2cf886f8c07.svg",
@@ -14,14 +16,17 @@
     "static/media/dislike-icon.svg": "/youtube-clone/static/media/dislike-icon.aee4545f8f577fc8a971c0e3ebb4689a.svg",
     "static/media/youtube-kids.svg": "/youtube-clone/static/media/youtube-kids.cced8dfb0a636b5b295b7f441b057460.svg",
     "static/media/youtube-TV.svg": "/youtube-clone/static/media/youtube-TV.f2aa81c2b21496547706aaeafe411ed3.svg",
+    "static/media/filter-icon.svg": "/youtube-clone/static/media/filter-icon.1ac76aaf63d8b6d5a866c430d29c261d.svg",
     "static/media/explore.svg": "/youtube-clone/static/media/explore.6ad8e5a708c366606530d4385e22e462.svg",
     "static/media/home.svg": "/youtube-clone/static/media/home.eb8734f568d159819859754a575e9101.svg",
     "static/media/voice-search.svg": "/youtube-clone/static/media/voice-search.bb43ce7be528e02bcc71586411fa161f.svg",
     "static/media/youtube-music.svg": "/youtube-clone/static/media/youtube-music.a166d430b8603750547e0878f1b6595c.svg",
-    "static/media/profile-icon.svg": "/youtube-clone/static/media/profile-icon.0d6949a6ba14e48d2f7ebc259af8121e.svg",
+    "static/media/prolifeIcon.svg": "/youtube-clone/static/media/prolifeIcon.6cda03a2448dd13937cb529549bddbdd.svg",
     "static/media/appearance.svg": "/youtube-clone/static/media/appearance.7835ceef7d9ae4ae110adec66b150a61.svg",
     "static/media/360-video-icon.svg": "/youtube-clone/static/media/360-video-icon.ed8bc4f2a29da0abeb312a455eaa2ded.svg",
     "static/media/sport-icon.svg": "/youtube-clone/static/media/sport-icon.9b09897f9c74020b93f5066b4eb25f33.svg",
+    "static/media/sign-out-icon.svg": "/youtube-clone/static/media/sign-out-icon.29aad706678316f2d1d10d8bf388ebcb.svg",
+    "static/media/addProfileIcon.svg": "/youtube-clone/static/media/addProfileIcon.a6ff1a9bf68d76577fab4ed705090e1a.svg",
     "static/media/youtube-artists.svg": "/youtube-clone/static/media/youtube-artists.9e6e68bec2c1f5e29b3b54dc02f54c47.svg",
     "static/media/search-button.svg": "/youtube-clone/static/media/search-button.d31d836d3650881f2c185acfdd291dff.svg",
     "static/media/language-icon.svg": "/youtube-clone/static/media/language-icon.cee1e9ecfd3351c89f007529237dabda.svg",
@@ -31,11 +36,11 @@
     "index.html": "/youtube-clone/index.html",
     "static/media/apps.svg": "/youtube-clone/static/media/apps.d9e1c4bb87d258e97c4a24d34d1faf23.svg",
     "static/media/burger-menu-icon.svg": "/youtube-clone/static/media/burger-menu-icon.b74c5d8dfa35629abd12025ec121b0b8.svg",
-    "main.635f92e1.css.map": "/youtube-clone/static/css/main.635f92e1.css.map",
-    "main.cca63c9e.js.map": "/youtube-clone/static/js/main.cca63c9e.js.map"
+    "main.1b6a76e0.css.map": "/youtube-clone/static/css/main.1b6a76e0.css.map",
+    "main.32b5e05f.js.map": "/youtube-clone/static/js/main.32b5e05f.js.map"
   },
   "entrypoints": [
-    "static/css/main.635f92e1.css",
-    "static/js/main.cca63c9e.js"
+    "static/css/main.1b6a76e0.css",
+    "static/js/main.32b5e05f.js"
   ]
 }
