@@ -3,6 +3,26 @@ import React, { Component } from "react";
 class MainPageTags extends Component {
   render() {
     const { state } = this.props;
+    const arr = [
+      "JS",
+      "Python",
+      "Drawing",
+      "Computer",
+      "Space",
+      "Sales Sales",
+      "JS",
+      "Python",
+      "Drawing",
+      "Computer",
+      "Space",
+      "Sales Sales",
+      "JS",
+      "Python",
+      "Drawing",
+      "Computer",
+      "Space",
+      "Sales Sales",
+    ];
     return (
       <div
         className={`${
@@ -12,69 +32,14 @@ class MainPageTags extends Component {
         <p className="border rounded-full bg-black p-1 px-3 cursor-pointer text-white">
           All
         </p>
-        <p className="border rounded-full bg-gray-100 hover:bg-gray-200 transition duration-150 p-1 px-3 cursor-pointer">
-          JS
-        </p>
-        <p className="border rounded-full bg-gray-100 p-1 px-3 cursor-pointer">
-          Python
-        </p>
-        <p className="border rounded-full bg-gray-100 p-1 px-3 cursor-pointer">
-          Drawing
-        </p>
-        <p className="border rounded-full bg-gray-100 p-1 px-3 cursor-pointer">
-          Computer
-        </p>
-        <p className="border rounded-full bg-gray-100 p-1 px-3 cursor-pointer">
-          Space
-        </p>
-        <p className="border rounded-full bg-gray-100 p-1 px-3 cursor-pointer">
-          Sales Sales
-        </p>
-        <p className="border rounded-full bg-gray-100 p-1 px-3 cursor-pointer">
-          Sales
-        </p>
-        <p className="border rounded-full bg-gray-100 p-1 px-3 cursor-pointer">
-          Sales
-        </p>
-        <p className="border rounded-full bg-gray-100 p-1 px-3 cursor-pointer">
-          Sales
-        </p>
-        <p className="border rounded-full bg-gray-100 p-1 px-3 cursor-pointer">
-          Sales
-        </p>
-        <p className="border rounded-full bg-gray-100 p-1 px-3 cursor-pointer">
-          Sales
-        </p>
-        <p className="border rounded-full bg-gray-100 p-1 px-3 cursor-pointer">
-          Sales
-        </p>
-        <p className="border rounded-full bg-gray-100 p-1 px-3 cursor-pointer">
-          Sales
-        </p>
-        <p className="border rounded-full bg-gray-100 p-1 px-3 cursor-pointer">
-          Sales
-        </p>
-        <p className="border rounded-full bg-gray-100 p-1 px-3 cursor-pointer">
-          Sales
-        </p>
-        <p className="border rounded-full bg-gray-100 p-1 px-3 cursor-pointer">
-          Sales
-        </p>
-        <p className="border rounded-full bg-gray-100 p-1 px-3 cursor-pointer">
-          Sales
-        </p>
-        <p className="border rounded-full bg-gray-100 p-1 px-3 cursor-pointer">
-          Sales
-        </p>
-        <p className="border rounded-full bg-gray-100 p-1 px-3 cursor-pointer">
-          Sales
-        </p>
-        <p className="border rounded-full bg-gray-100 p-1 px-3 cursor-pointer">
-          Sales
-        </p>
-        <p className="border rounded-full bg-gray-100 p-1 px-3 cursor-pointer">
-          Sales
-        </p>
+        {arr.map((i, idx) => (
+          <p
+            key={idx}
+            className="border rounded-full bg-gray-100 hover:bg-gray-200 transition duration-150 p-1 px-3 cursor-pointer"
+          >
+            {i}
+          </p>
+        ))}
       </div>
     );
   }

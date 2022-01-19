@@ -10,6 +10,7 @@ import { ReactComponent as SearchButtonLogo } from "../icons/search-button.svg";
 import ModalYouTubeApps from "./ModalButtons/ModalYouTubeApps";
 import ModalSettings from "./ModalButtons/ModalSettings";
 import { Link } from "react-router-dom";
+import defaultAvatar from "../icons/profileDefaultAvatar.jpg";
 
 class Header extends Component {
   render() {
@@ -25,8 +26,8 @@ class Header extends Component {
       handleSearch,
       handleModalSignUp,
       currentUser,
-      profileSrc,
       handleUserModalMenu,
+      user,
     } = this.props;
     return (
       <>
@@ -40,7 +41,7 @@ class Header extends Component {
               <YoutubeLogo className="w-20 h-14 cursor-pointer md:w-32 md:ml-2" />
             </Link>
           </div>
-          <div className="flex items-center  md:w-1/2">
+          <div className="flex items-center w-full  md:w-1/2">
             <input
               placeholder="Search"
               className="border p-2 pl-4 w-full focus:outline-none focus:border-blue-700 shadow-inner"
@@ -72,7 +73,9 @@ class Header extends Component {
               <button onClick={handleUserModalMenu} className="mx-1 md:ml-10">
                 <img
                   className="object-cover w-8 h-8 rounded-full"
-                  src={profileSrc}
+                  src={
+                    user && user.profileSrc ? user.profileSrc : defaultAvatar
+                  }
                   alt=""
                 />
               </button>

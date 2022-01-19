@@ -11,7 +11,6 @@ import * as momentDurationFormatSetup from "moment-duration-format";
 import SearchPage from "./components/SearchPage";
 import MainPageTags from "./components/MainPageTags";
 import ModalSignUp from "./components/ModalSignUp";
-import profileImg from "../src/icons/profileDefaultAvatar.jpg";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 import ModalUserMenu from "./components/ModalUserMenu";
@@ -26,12 +25,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: { username: "user" },
-      user: {
-        username: "user",
-        profileSrc: profileImg,
-        fullName: "firstName lastName",
-      },
+      currentUser: null,
+      user: null,
       openSideBar: true,
       visibleModalSingUp: false,
       visibleYoutubeApps: false,
@@ -222,6 +217,10 @@ class App extends Component {
     });
   };
 
+  setUser = (user) => {
+    this.setState({ user });
+  };
+
   render() {
     const {
       visibleYoutubeApps,
@@ -230,8 +229,9 @@ class App extends Component {
       visibleModalSingUp,
       currentUser,
       visibleUserModalMenu,
+      user,
     } = this.state;
-    const { profileSrc, fullName } = this.state.user;
+
     return (
       <HashRouter>
         <div className="App">
@@ -241,8 +241,9 @@ class App extends Component {
           {visibleUserModalMenu ? (
             <ModalUserMenu
               handleUserModalMenu={this.handleUserModalMenu}
-              profileSrc={profileSrc}
-              fullName={fullName}
+              currentUser={currentUser}
+              setUser={this.setUser}
+              user={user}
             />
           ) : null}
           <Routes>
@@ -264,7 +265,7 @@ class App extends Component {
                     visibleModalSingUp={visibleModalSingUp}
                     handleModalSignUp={this.handleModalSignUp}
                     currentUser={currentUser}
-                    profileSrc={profileSrc}
+                    user={user}
                     handleUserModalMenu={this.handleUserModalMenu}
                     visibleUserModalMenu={visibleUserModalMenu}
                   />
@@ -283,7 +284,7 @@ class App extends Component {
               }
             />
             <Route
-              path="/:video"
+              path="/video"
               element={
                 <MainVideoPage
                   handleSearchClick={this.handleSearchClick}
@@ -299,7 +300,9 @@ class App extends Component {
                   visibleModalSingUp={visibleModalSingUp}
                   handleModalSignUp={this.handleModalSignUp}
                   currentUser={currentUser}
-                  profileSrc={profileSrc}
+                  user={user}
+                  handleUserModalMenu={this.handleUserModalMenu}
+                  visibleUserModalMenu={visibleUserModalMenu}
                 />
               }
             />
@@ -323,7 +326,9 @@ class App extends Component {
                   visibleModalSingUp={visibleModalSingUp}
                   handleModalSignUp={this.handleModalSignUp}
                   currentUser={currentUser}
-                  profileSrc={profileSrc}
+                  user={user}
+                  handleUserModalMenu={this.handleUserModalMenu}
+                  visibleUserModalMenu={visibleUserModalMenu}
                 />
               }
             />
@@ -347,7 +352,9 @@ class App extends Component {
                   visibleModalSingUp={visibleModalSingUp}
                   handleModalSignUp={this.handleModalSignUp}
                   currentUser={currentUser}
-                  profileSrc={profileSrc}
+                  user={user}
+                  handleUserModalMenu={this.handleUserModalMenu}
+                  visibleUserModalMenu={visibleUserModalMenu}
                 />
               }
             />

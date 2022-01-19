@@ -27,6 +27,9 @@ class ExplorePage extends Component {
       visibleModalSingUp,
       currentUser,
       profileSrc,
+      handleUserModalMenu,
+      visibleUserModalMenu,
+      user,
     } = this.props;
 
     return (
@@ -43,14 +46,17 @@ class ExplorePage extends Component {
           handleModalSignUp={handleModalSignUp}
           currentUser={currentUser}
           profileSrc={profileSrc}
+          handleUserModalMenu={handleUserModalMenu}
+          visibleUserModalMenu={visibleUserModalMenu}
+          user={user}
         />
         <MainPage state={state} handleChoose={handleChoose} />
         <div
           className={`${
-            state.openSideBar ? "ml-64  pl-20 " : "ml-16  pl-48"
-          } bg-gray-50 pt-20`}
+            state.openSideBar ? "md:ml-64  md:pl-20 " : "md:ml-16  md:pl-48"
+          } bg-gray-50 pt-20 `}
         >
-          <div className="flex justify-between pr-[35%] pb-10 text-lg font-medium">
+          <div className="flex justify-between md:pr-[35%] pb-10 text-lg font-medium">
             <div className=" pr-24 pb-8 pl-6 pt-6 rounded bg-white hover:bg-gray-200 cursor-pointer">
               <TrendIcon className="w-8 h-8 mb-4" />
               <span>Tranding</span>
@@ -68,8 +74,8 @@ class ExplorePage extends Component {
               <span>Sports</span>
             </div>
           </div>
-          <span className="font-semibold">Trending videos</span>
-          <div className="flex flex-col">
+          <span className="font-semibold p-3 md:p-0">Trending videos</span>
+          <div className="flex flex-col p-3 md:p-0">
             {state.video.map((i) => (
               <Link to="/video" key={i.id} className="flex mt-4">
                 <div className="relative">
@@ -82,7 +88,7 @@ class ExplorePage extends Component {
                     {videoDuration(i.contentDetails.duration)}
                   </span>
                 </div>
-                <div className="pt-1 ml-6 w-4/5 pr-[35%]">
+                <div className="pt-1 ml-6 w-[40%]">
                   <span className="text-lg font-medium line-clamp-2">
                     {i.snippet.title}
                   </span>

@@ -23,6 +23,8 @@ class SearchPage extends Component {
       visibleModalSingUp,
       currentUser,
       profileSrc,
+      handleUserModalMenu,
+      visibleUserModalMenu,
     } = this.props;
     return (
       <div>
@@ -38,6 +40,8 @@ class SearchPage extends Component {
           visibleModalSingUp={visibleModalSingUp}
           currentUser={currentUser}
           profileSrc={profileSrc}
+          handleUserModalMenu={handleUserModalMenu}
+          visibleUserModalMenu={visibleUserModalMenu}
         />
         <MainPage state={state} handleChoose={handleChoose} />
         <div

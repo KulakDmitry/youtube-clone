@@ -30,6 +30,8 @@ class MainVideoPage extends Component {
       visibleModalSingUp,
       currentUser,
       profileSrc,
+      handleUserModalMenu,
+      visibleUserModalMenu,
     } = this.props;
     return (
       <div>
@@ -45,6 +47,8 @@ class MainVideoPage extends Component {
           visibleModalSingUp={visibleModalSingUp}
           currentUser={currentUser}
           profileSrc={profileSrc}
+          handleUserModalMenu={handleUserModalMenu}
+          visibleUserModalMenu={visibleUserModalMenu}
         />
         {!openSideBar && (
           <div className="flex fixed flex-col w-60 border-gray-400 mt-14 text-sm z-30 bg-white h-screen ">

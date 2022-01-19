@@ -1,63 +1,153 @@
 import React, { Component } from "react";
 import { Field, Form, Formik } from "formik";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
+import { setDoc, doc } from "firebase/firestore";
 
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 
 class ModalSignUp extends Component {
-  handleSubmit = (values) => {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeLogIn: false,
+      activeSignUp: true,
+    };
+  }
+  handleLogIn = () => {
+    this.setState({
+      activeLogIn: true,
+      activeSignUp: false,
+    });
+  };
+  handleSignUp = () => {
+    this.setState({
+      activeLogIn: false,
+      activeSignUp: true,
+    });
+  };
+
+  handleSubmitSignUp = (values) => {
     const { handleModalSignUp } = this.props;
     createUserWithEmailAndPassword(auth, values.email, values.password).then(
-      (user) =>
-        updateProfile(auth.currentUser, { displayName: values.username })
+      async () => {
+        await updateProfile(auth.currentUser, { displayName: values.username });
+        await setDoc(doc(db, "users", values.username), {
+          username: values.username,
+          profileSrc: "",
+          fullName: "",
+        });
+      }
     );
+    handleModalSignUp();
+  };
+
+  handleSubmitLogIn = (values) => {
+    const { handleModalSignUp } = this.props;
+    signInWithEmailAndPassword(auth, values.email, values.password).then();
     handleModalSignUp();
   };
   render() {
     const { handleModalSignUp } = this.props;
+    const { activeSignUp, activeLogIn } = this.state;
     return (
       <div
         onClick={handleModalSignUp}
         className="fixed flex justify-center items-center top-0 left-0 bottom-0 right-0 bg-black/50 z-40 "
       >
-        <Formik
-          onSubmit={this.handleSubmit}
-          initialValues={{ username: "", email: "", password: "" }}
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="p-12 pt-8 bg-white rounded"
         >
-          <Form
-            onClick={(e) => e.stopPropagation()}
-            className="flex flex-col justify-between p-12 bg-white rounded"
-          >
-            <div className="flex justify-between items-center">
-              <span className="mr-4">Email</span>
-              <Field
-                className="border border-gray-300  text-lg "
-                name="email"
-              />
-            </div>
-            <div className="flex justify-between items-center mt-4">
-              <span className="mr-4">Username</span>
-              <Field
-                className="border border-gray-300 text-lg"
-                name="username"
-              />
-            </div>
-            <div className="flex justify-between items-center mt-4">
-              <span className="mr-4">Password</span>
-              <Field
-                className="border border-gray-300 text-lg"
-                type="password"
-                name="password"
-              />
-            </div>
+          <div className="flex justify-around mb-10">
             <button
-              className="w-[50%] m-auto border border-gray-300 bg-gray-200 hover:bg-gray-400 hover:text-white p-2 mt-10 rounded-full"
-              type="submit"
+              className={`${
+                activeLogIn && "text-blue-600 border-b border-blue-600"
+              } border-b border-black `}
+              onClick={this.handleLogIn}
             >
-              Sign Up
+              <span className="p-4">Log In</span>
             </button>
-          </Form>
-        </Formik>
+            <button
+              className={`${
+                activeSignUp && "text-blue-600 border-b border-blue-600"
+              } border-b border-black `}
+              onClick={this.handleSignUp}
+            >
+              <span className="p-4">Sing Up</span>
+            </button>
+          </div>
+          {activeSignUp && (
+            <Formik
+              onSubmit={this.handleSubmitSignUp}
+              initialValues={{ username: "", email: "", password: "" }}
+            >
+              <Form className="flex flex-col justify-between">
+                <div className="flex justify-between items-center">
+                  <span className="mr-4">Email</span>
+                  <Field
+                    className="border border-gray-300  text-lg "
+                    name="email"
+                  />
+                </div>
+                <div className="flex justify-between items-center mt-4">
+                  <span className="mr-4">Username</span>
+                  <Field
+                    className="border border-gray-300 text-lg"
+                    name="username"
+                  />
+                </div>
+                <div className="flex justify-between items-center mt-4">
+                  <span className="mr-4">Password</span>
+                  <Field
+                    className="border border-gray-300 text-lg"
+                    type="password"
+                    name="password"
+                  />
+                </div>
+                <button
+                  className="w-[50%] m-auto border border-gray-300 bg-gray-200 hover:bg-gray-400 hover:text-white p-2 mt-10 rounded-full"
+                  type="submit"
+                >
+                  Sign Up
+                </button>
+              </Form>
+            </Formik>
+          )}
+          {activeLogIn && (
+            <Formik
+              onSubmit={this.handleSubmitLogIn}
+              initialValues={{ email: "", password: "" }}
+            >
+              <Form className="flex flex-col justify-between">
+                <div className="flex justify-between items-center">
+                  <span className="mr-4">Email</span>
+                  <Field
+                    className="border border-gray-300  text-lg "
+                    name="email"
+                  />
+                </div>
+                <div className="flex justify-between items-center mt-4">
+                  <span className="mr-4">Password</span>
+                  <Field
+                    className="border border-gray-300 text-lg"
+                    type="password"
+                    name="password"
+                  />
+                </div>
+                <button
+                  className="w-[50%] m-auto border border-gray-300 bg-gray-200 hover:bg-gray-400 hover:text-white p-2 mt-10 rounded-full"
+                  type="submit"
+                >
+                  Log In
+                </button>
+              </Form>
+            </Formik>
+          )}
+        </div>
       </div>
     );
   }
