@@ -66,7 +66,7 @@ class ModalSignUp extends Component {
             <button
               className={`${
                 activeLogIn && "text-blue-600 border-b border-blue-600"
-              } border-b border-black `}
+              }`}
               onClick={this.handleLogIn}
             >
               <span className="p-4">Log In</span>
@@ -74,7 +74,7 @@ class ModalSignUp extends Component {
             <button
               className={`${
                 activeSignUp && "text-blue-600 border-b border-blue-600"
-              } border-b border-black `}
+              }`}
               onClick={this.handleSignUp}
             >
               <span className="p-4">Sing Up</span>
