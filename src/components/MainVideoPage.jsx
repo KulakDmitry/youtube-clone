@@ -26,6 +26,10 @@ class MainVideoPage extends Component {
       state,
       handleSearch,
       handleSearchClick,
+      handleModalSignUp,
+      visibleModalSingUp,
+      currentUser,
+      profileSrc,
     } = this.props;
     return (
       <div>
@@ -37,6 +41,10 @@ class MainVideoPage extends Component {
           visibleSettings={visibleSettings}
           handleSearchClick={handleSearchClick}
           handleSearch={handleSearch}
+          handleModalSignUp={handleModalSignUp}
+          visibleModalSingUp={visibleModalSingUp}
+          currentUser={currentUser}
+          profileSrc={profileSrc}
         />
         {!openSideBar && (
           <div className="flex fixed flex-col w-60 border-gray-400 mt-14 text-sm z-30 bg-white h-screen ">

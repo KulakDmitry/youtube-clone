@@ -23,6 +23,10 @@ class Header extends Component {
       visibleApps,
       visibleSettings,
       handleSearch,
+      handleModalSignUp,
+      currentUser,
+      profileSrc,
+      handleUserModalMenu,
     } = this.props;
     return (
       <>
@@ -63,10 +67,24 @@ class Header extends Component {
               className="hidden md:block md:ml-4 md:w-6 md:cursor-pointer"
               onClick={handleModalSettings}
             />
-            <div className=" md:ml-4 md:border-2 md:border-blue-600 md:p-2 md:flex md:items-center md:cursor-pointer">
-              <ProfileLogo className="w-6 cursor-pointer mr-2 " />
-              <p className="hidden md:block md:text-blue-600">SIGN IN</p>
-            </div>
+
+            {currentUser ? (
+              <button onClick={handleUserModalMenu} className="mx-1 md:ml-10">
+                <img
+                  className="object-cover w-8 h-8 rounded-full"
+                  src={profileSrc}
+                  alt=""
+                />
+              </button>
+            ) : (
+              <button
+                onClick={handleModalSignUp}
+                className=" md:ml-4 md:border-2 md:border-blue-600 md:p-2 md:flex md:items-center md:cursor-pointer"
+              >
+                <ProfileLogo className="w-6 cursor-pointer mr-2" />
+                <p className="hidden md:block md:text-blue-600">SIGN IN</p>
+              </button>
+            )}
           </div>
         </div>
         <ModalYouTubeApps visibleApps={visibleApps} />

@@ -2,18 +2,21 @@ import Header from "./components/Header";
 import MainPage from "./components/MainPage";
 import React, { Component } from "react";
 import MainVideoPage from "./components/MainVideoPage";
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import ExplorePage from "./components/ExplorePage";
 import VideoContent from "./components/VideoContent";
 import * as numeral from "numeral";
 import * as moment from "moment";
 import * as momentDurationFormatSetup from "moment-duration-format";
 import SearchPage from "./components/SearchPage";
-
 import MainPageTags from "./components/MainPageTags";
+import ModalSignUp from "./components/ModalSignUp";
+import profileImg from "../src/icons/profileDefaultAvatar.jpg";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase";
+import ModalUserMenu from "./components/ModalUserMenu";
 
 const { DateTime } = require("luxon");
-
 const api_key = process.env.REACT_APP_API_KEY;
 const videoData = "https://www.googleapis.com/youtube/v3/videos?";
 const channelData = "https://www.googleapis.com/youtube/v3/channels?";
@@ -23,14 +26,23 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentUser: { username: "user" },
+      user: {
+        username: "user",
+        profileSrc: profileImg,
+        fullName: "firstName lastName",
+      },
       openSideBar: true,
+      visibleModalSingUp: false,
       visibleYoutubeApps: false,
       visibleSettings: false,
+      visibleUserModalMenu: false,
       video: [],
       isChoose: false,
       searchText: "",
       searchVideoData: [],
       fetching: false,
+      pageToken: "",
     };
   }
 
@@ -80,7 +92,7 @@ class App extends Component {
         new URLSearchParams({
           key: api_key,
           part: "snippet",
-          maxResults: 15,
+          maxResults: 5,
           q: value,
         })
     )
@@ -95,10 +107,6 @@ class App extends Component {
       })
       .catch((err) => console.log(err));
 
-  getVideoId = (video) => {
-    return video.id.videoId;
-  };
-
   handleChoose = (id) => {
     this.setState({
       isChoose: id,
@@ -107,19 +115,22 @@ class App extends Component {
   };
 
   handleSideBar = () => {
+    const { openSideBar } = this.state;
     this.setState({
-      openSideBar: !this.state.openSideBar,
+      openSideBar: !openSideBar,
     });
   };
 
   handleModalYouTubeApps = () => {
+    const { visibleYoutubeApps } = this.state;
     this.setState({
-      visibleYoutubeApps: !this.state.visibleYoutubeApps,
+      visibleYoutubeApps: !visibleYoutubeApps,
     });
   };
   handleModalSettings = () => {
+    const { visibleSettings } = this.state;
     this.setState({
-      visibleSettings: !this.state.visibleSettings,
+      visibleSettings: !visibleSettings,
     });
   };
 
@@ -140,6 +151,12 @@ class App extends Component {
   };
 
   componentDidMount() {
+    onAuthStateChanged(auth, (user) => {
+      this.setState({
+        currentUser: user,
+      });
+    });
+
     fetch(
       videoData +
         new URLSearchParams({
@@ -158,54 +175,6 @@ class App extends Component {
         });
       })
       .catch((err) => console.log(err));
-
-    document.addEventListener("scroll", this.handleScroll);
-  }
-
-  // componentWillUnmount() {
-  //   document.removeEventListener("scroll", this.handleScroll);
-  // }
-
-  handleScroll = (e) => {
-    if (
-      e.target.documentElement.scrollHeight -
-        (e.target.documentElement.scrollTop + window.innerHeight) <
-      100
-    ) {
-      console.log("scroll");
-      this.setState({
-        fetching: true,
-      });
-    }
-  };
-
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
-    const { searchVideoData, pageToken, searchText } = this.state;
-
-    if (this.fetching) {
-      fetch(
-        searchData +
-          new URLSearchParams({
-            key: api_key,
-            part: "snippet",
-            maxResults: 2,
-            q: searchText,
-            pageToken: pageToken,
-          })
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          data.items.forEach((item) => this.getChannelIcon(item));
-          data.items.forEach((item) => this.getDataForSearchVideo(item));
-          this.setState({
-            searchVideoData: [...searchVideoData, data.items],
-            pageToken: data.nextPageToken,
-          });
-        })
-        .finally(() => this.setState({ fetching: false }))
-        .catch((err) => console.log(err));
-    }
-    return true;
   }
 
   viewCount = (str) => {
@@ -213,6 +182,8 @@ class App extends Component {
 
     if (parseInt(str) > 1000) {
       num = numeral(str).format("0a").toUpperCase();
+    } else {
+      num = parseInt(str);
     }
 
     if (parseInt(str) > 1000000) {
@@ -237,11 +208,43 @@ class App extends Component {
     return relativeFormatter.format(Math.trunc(diff.as(unit)), unit);
   };
 
+  handleModalSignUp = () => {
+    const { visibleModalSingUp } = this.state;
+    this.setState({
+      visibleModalSingUp: !visibleModalSingUp,
+    });
+  };
+
+  handleUserModalMenu = () => {
+    const { visibleUserModalMenu } = this.state;
+    this.setState({
+      visibleUserModalMenu: !visibleUserModalMenu,
+    });
+  };
+
   render() {
-    const { visibleYoutubeApps, visibleSettings, openSideBar } = this.state;
+    const {
+      visibleYoutubeApps,
+      visibleSettings,
+      openSideBar,
+      visibleModalSingUp,
+      currentUser,
+      visibleUserModalMenu,
+    } = this.state;
+    const { profileSrc, fullName } = this.state.user;
     return (
       <HashRouter>
         <div className="App">
+          {visibleModalSingUp ? (
+            <ModalSignUp handleModalSignUp={this.handleModalSignUp} />
+          ) : null}
+          {visibleUserModalMenu ? (
+            <ModalUserMenu
+              handleUserModalMenu={this.handleUserModalMenu}
+              profileSrc={profileSrc}
+              fullName={fullName}
+            />
+          ) : null}
           <Routes>
             <Route
               path="/"
@@ -258,6 +261,12 @@ class App extends Component {
                     handleSearch={this.handleSearch}
                     handleStartSearch={this.handleStartSearch}
                     searchText={this.state.searchText}
+                    visibleModalSingUp={visibleModalSingUp}
+                    handleModalSignUp={this.handleModalSignUp}
+                    currentUser={currentUser}
+                    profileSrc={profileSrc}
+                    handleUserModalMenu={this.handleUserModalMenu}
+                    visibleUserModalMenu={visibleUserModalMenu}
                   />
                   <MainPage
                     state={this.state}
@@ -287,6 +296,10 @@ class App extends Component {
                   visibleSettings={visibleSettings}
                   handleChoose={this.handleChoose}
                   state={this.state}
+                  visibleModalSingUp={visibleModalSingUp}
+                  handleModalSignUp={this.handleModalSignUp}
+                  currentUser={currentUser}
+                  profileSrc={profileSrc}
                 />
               }
             />
@@ -307,6 +320,10 @@ class App extends Component {
                   timeSinceLoadingVideo={this.timeSinceLoadingVideo}
                   videoDuration={this.videoDuration}
                   viewCount={this.viewCount}
+                  visibleModalSingUp={visibleModalSingUp}
+                  handleModalSignUp={this.handleModalSignUp}
+                  currentUser={currentUser}
+                  profileSrc={profileSrc}
                 />
               }
             />
@@ -327,9 +344,14 @@ class App extends Component {
                   viewCount={this.viewCount}
                   handleSearchClick={this.handleSearchClick}
                   handleSearch={this.handleSearch}
+                  visibleModalSingUp={visibleModalSingUp}
+                  handleModalSignUp={this.handleModalSignUp}
+                  currentUser={currentUser}
+                  profileSrc={profileSrc}
                 />
               }
             />
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>
       </HashRouter>

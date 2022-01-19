@@ -19,6 +19,10 @@ class SearchPage extends Component {
       timeSinceLoadingVideo,
       videoDuration,
       viewCount,
+      handleModalSignUp,
+      visibleModalSingUp,
+      currentUser,
+      profileSrc,
     } = this.props;
     return (
       <div>
@@ -30,6 +34,10 @@ class SearchPage extends Component {
           visibleSettings={visibleSettings}
           handleSearchClick={handleSearchClick}
           handleSearch={handleSearch}
+          handleModalSignUp={handleModalSignUp}
+          visibleModalSingUp={visibleModalSingUp}
+          currentUser={currentUser}
+          profileSrc={profileSrc}
         />
         <MainPage state={state} handleChoose={handleChoose} />
         <div

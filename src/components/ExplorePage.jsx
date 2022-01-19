@@ -23,6 +23,10 @@ class ExplorePage extends Component {
       timeSinceLoadingVideo,
       handleSearch,
       handleSearchClick,
+      handleModalSignUp,
+      visibleModalSingUp,
+      currentUser,
+      profileSrc,
     } = this.props;
 
     return (
@@ -35,6 +39,10 @@ class ExplorePage extends Component {
           visibleSettings={visibleSettings}
           handleSearchClick={handleSearchClick}
           handleSearch={handleSearch}
+          visibleModalSingUp={visibleModalSingUp}
+          handleModalSignUp={handleModalSignUp}
+          currentUser={currentUser}
+          profileSrc={profileSrc}
         />
         <MainPage state={state} handleChoose={handleChoose} />
         <div
