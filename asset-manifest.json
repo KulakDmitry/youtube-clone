@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/youtube-clone/static/css/main.bf33d232.css",
-    "main.js": "/youtube-clone/static/js/main.cabf0d39.js",
+    "main.js": "/youtube-clone/static/js/main.61780d01.js",
     "static/media/profileDefaultAvatar.jpg": "/youtube-clone/static/media/profileDefaultAvatar.5744bdd4e86b254d54b1.jpg",
     "static/media/sportsicon.svg": "/youtube-clone/static/media/sportsicon.d71c4b18c6b552f90421f8ac9250b4de.svg",
     "static/media/subscribe-youtube.svg": "/youtube-clone/static/media/subscribe-youtube.f487d46152457cdd4a9c89882218c0ac.svg",
@@ -37,10 +37,10 @@
     "static/media/apps.svg": "/youtube-clone/static/media/apps.d9e1c4bb87d258e97c4a24d34d1faf23.svg",
     "static/media/burger-menu-icon.svg": "/youtube-clone/static/media/burger-menu-icon.b74c5d8dfa35629abd12025ec121b0b8.svg",
     "main.bf33d232.css.map": "/youtube-clone/static/css/main.bf33d232.css.map",
-    "main.cabf0d39.js.map": "/youtube-clone/static/js/main.cabf0d39.js.map"
+    "main.61780d01.js.map": "/youtube-clone/static/js/main.61780d01.js.map"
   },
   "entrypoints": [
     "static/css/main.bf33d232.css",
-    "static/js/main.cabf0d39.js"
+    "static/js/main.61780d01.js"
   ]
 }
