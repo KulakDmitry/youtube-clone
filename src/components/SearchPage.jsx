@@ -10,6 +10,7 @@ class SearchPage extends Component {
       state,
       handleSearchClick,
       handleSearch,
+      handleStartSearch,
       handleChoose,
       handleSideBar,
       handleModalApps,
@@ -36,6 +37,7 @@ class SearchPage extends Component {
           visibleSettings={visibleSettings}
           handleSearchClick={handleSearchClick}
           handleSearch={handleSearch}
+          handleStartSearch={handleStartSearch}
           handleModalSignUp={handleModalSignUp}
           visibleModalSingUp={visibleModalSingUp}
           currentUser={currentUser}

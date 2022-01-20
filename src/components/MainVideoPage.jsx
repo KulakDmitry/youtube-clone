@@ -26,6 +26,7 @@ class MainVideoPage extends Component {
       state,
       handleSearch,
       handleSearchClick,
+      handleStartSearch,
       handleModalSignUp,
       visibleModalSingUp,
       currentUser,
@@ -43,6 +44,7 @@ class MainVideoPage extends Component {
           visibleSettings={visibleSettings}
           handleSearchClick={handleSearchClick}
           handleSearch={handleSearch}
+          handleStartSearch={handleStartSearch}
           handleModalSignUp={handleModalSignUp}
           visibleModalSingUp={visibleModalSingUp}
           currentUser={currentUser}

@@ -23,6 +23,7 @@ class ExplorePage extends Component {
       timeSinceLoadingVideo,
       handleSearch,
       handleSearchClick,
+      handleStartSearch,
       handleModalSignUp,
       visibleModalSingUp,
       currentUser,
@@ -42,6 +43,7 @@ class ExplorePage extends Component {
           visibleSettings={visibleSettings}
           handleSearchClick={handleSearchClick}
           handleSearch={handleSearch}
+          handleStartSearch={handleStartSearch}
           visibleModalSingUp={visibleModalSingUp}
           handleModalSignUp={handleModalSignUp}
           currentUser={currentUser}

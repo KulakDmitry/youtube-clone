@@ -45,9 +45,11 @@ class App extends Component {
     if (e.key !== "Enter") {
       return;
     }
+    const { searchText } = this.state;
     this.setState({
-      searchText: e.target.value,
+      searchVideoData: [],
     });
+    this.getSearchData(searchText).then();
   };
 
   handleSearch = (e) => {
@@ -289,6 +291,7 @@ class App extends Component {
                 <MainVideoPage
                   handleSearchClick={this.handleSearchClick}
                   handleSearch={this.handleSearch}
+                  handleStartSearch={this.handleStartSearch}
                   openSideBar={openSideBar}
                   handleSideBar={this.handleSideBar}
                   handleModalApps={this.handleModalYouTubeApps}
@@ -312,6 +315,7 @@ class App extends Component {
                 <ExplorePage
                   handleSearchClick={this.handleSearchClick}
                   handleSearch={this.handleSearch}
+                  handleStartSearch={this.handleStartSearch}
                   openSideBar={openSideBar}
                   handleSideBar={this.handleSideBar}
                   handleModalApps={this.handleModalYouTubeApps}
@@ -349,6 +353,7 @@ class App extends Component {
                   viewCount={this.viewCount}
                   handleSearchClick={this.handleSearchClick}
                   handleSearch={this.handleSearch}
+                  handleStartSearch={this.handleStartSearch}
                   visibleModalSingUp={visibleModalSingUp}
                   handleModalSignUp={this.handleModalSignUp}
                   currentUser={currentUser}

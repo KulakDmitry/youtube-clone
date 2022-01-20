@@ -11,8 +11,17 @@ import ModalYouTubeApps from "./ModalButtons/ModalYouTubeApps";
 import ModalSettings from "./ModalButtons/ModalSettings";
 import { Link } from "react-router-dom";
 import defaultAvatar from "../icons/profileDefaultAvatar.jpg";
+import { withRouter } from "../withRouter";
 
 class Header extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  handleSearch = (e) => {
+    e.preventDefault();
+    this.props.navigate("/search");
+  };
   render() {
     const {
       searchText,
@@ -41,7 +50,10 @@ class Header extends Component {
               <YoutubeLogo className="w-20 h-14 cursor-pointer md:w-32 md:ml-2" />
             </Link>
           </div>
-          <div className="flex items-center w-full  md:w-1/2">
+          <form
+            className="flex items-center w-full  md:w-1/2"
+            onSubmit={this.handleSearch}
+          >
             <input
               placeholder="Search"
               className="border p-2 pl-4 w-full focus:outline-none focus:border-blue-700 shadow-inner"
@@ -58,7 +70,7 @@ class Header extends Component {
               <SearchButtonLogo className="w-4 md:w-6" />
             </Link>
             <SearchVoiceLogo className="hidden md:block md:ml-2 md:w-8 md:cursor-pointer" />
-          </div>
+          </form>
           <div className="flex justify-end items-center  md:w-1/4 md:mr-8">
             <AppsLogo
               className="hidden md:block md:ml-4 md:w-6 md:cursor-pointer"
@@ -97,4 +109,4 @@ class Header extends Component {
   }
 }
 
-export default Header;
+export default withRouter(Header);
