@@ -3,8 +3,13 @@ import { Link } from "react-router-dom";
 
 class VideoContent extends Component {
   render() {
-    const { state, timeSinceLoadingVideo, videoDuration, viewCount } =
-      this.props;
+    const {
+      state,
+      timeSinceLoadingVideo,
+      videoDuration,
+      viewCount,
+      handleGetVideoInfo,
+    } = this.props;
 
     return (
       <div
@@ -15,7 +20,11 @@ class VideoContent extends Component {
         } pt-20 md:pt-6 md:bg-gray-50 md:h-full md:p-14`}
       >
         {state.video.map((i) => (
-          <Link to="/video" key={i.id}>
+          <Link
+            onClick={() => handleGetVideoInfo(i)}
+            to={`/video/${i.id}`}
+            key={i.id}
+          >
             <div className="relative">
               <img
                 className="w-full"

@@ -20,6 +20,7 @@ const api_key = process.env.REACT_APP_API_KEY;
 const videoData = "https://www.googleapis.com/youtube/v3/videos?";
 const channelData = "https://www.googleapis.com/youtube/v3/channels?";
 const searchData = "https://www.googleapis.com/youtube/v3/search?";
+const commentsData = "https://www.googleapis.com/youtube/v3/commentThreads?";
 
 class App extends Component {
   constructor(props) {
@@ -38,6 +39,7 @@ class App extends Component {
       searchVideoData: [],
       fetching: false,
       pageToken: "",
+      videoInfo: {},
     };
   }
 
@@ -79,6 +81,24 @@ class App extends Component {
       .then((data) => {
         video.duration = data.items[0].contentDetails.duration;
         video.views = data.items[0].statistics.viewCount;
+      })
+      .catch((err) => console.log(err));
+  };
+
+  getCommentsData = (id) => {
+    fetch(
+      commentsData +
+        new URLSearchParams({
+          key: api_key,
+          part: "snippet",
+          videoId: id,
+        })
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        this.setState({
+          videoComments: data.items,
+        });
       })
       .catch((err) => console.log(err));
   };
@@ -136,13 +156,14 @@ class App extends Component {
       channelData +
         new URLSearchParams({
           key: api_key,
-          part: "snippet",
+          part: "snippet, statistics",
           id: video.snippet.channelId,
         })
     )
       .then((res) => res.json())
       .then((data) => {
         video.channelThumbnail = data.items[0].snippet.thumbnails.default.url;
+        video.subscribersCount = data.items[0].statistics.subscriberCount;
       })
       .catch((err) => console.log(err));
   };
@@ -174,7 +195,7 @@ class App extends Component {
       .catch((err) => console.log(err));
   }
 
-  viewCount = (str) => {
+  convertCount = (str) => {
     let num;
 
     if (parseInt(str) > 1000) {
@@ -221,6 +242,26 @@ class App extends Component {
 
   setUser = (user) => {
     this.setState({ user });
+  };
+
+  handleGetVideoInfo = (video) => {
+    this.getCommentsData(video.id);
+    this.setState({
+      videoInfo: {
+        id: video.id,
+        title: video.snippet.title,
+        description: video.snippet.description,
+        views: this.convertCount(video.statistics.viewCount),
+        channelTitle: video.snippet.channelTitle,
+        likeCount: this.convertCount(video.statistics.likeCount),
+        commentCount: this.convertCount(video.statistics.commentCount),
+        subscribersCount: this.convertCount(video.subscribersCount),
+        publishedAt: DateTime.fromISO(video.snippet.publishedAt).toLocaleString(
+          DateTime.DATE_MED
+        ),
+        channelThumbnail: video.channelThumbnail,
+      },
+    });
   };
 
   render() {
@@ -280,13 +321,14 @@ class App extends Component {
                     state={this.state}
                     timeSinceLoadingVideo={this.timeSinceLoadingVideo}
                     videoDuration={this.videoDuration}
-                    viewCount={this.viewCount}
+                    viewCount={this.convertCount}
+                    handleGetVideoInfo={this.handleGetVideoInfo}
                   />
                 </>
               }
             />
             <Route
-              path="/video"
+              path="/video/:id"
               element={
                 <MainVideoPage
                   handleSearchClick={this.handleSearchClick}
@@ -306,6 +348,10 @@ class App extends Component {
                   user={user}
                   handleUserModalMenu={this.handleUserModalMenu}
                   visibleUserModalMenu={visibleUserModalMenu}
+                  handleGetVideoInfo={this.handleGetVideoInfo}
+                  timeSinceLoadingVideo={this.timeSinceLoadingVideo}
+                  videoDuration={this.videoDuration}
+                  convertCount={this.convertCount}
                 />
               }
             />
@@ -326,7 +372,7 @@ class App extends Component {
                   state={this.state}
                   timeSinceLoadingVideo={this.timeSinceLoadingVideo}
                   videoDuration={this.videoDuration}
-                  viewCount={this.viewCount}
+                  viewCount={this.convertCount}
                   visibleModalSingUp={visibleModalSingUp}
                   handleModalSignUp={this.handleModalSignUp}
                   currentUser={currentUser}
@@ -350,7 +396,7 @@ class App extends Component {
                   state={this.state}
                   timeSinceLoadingVideo={this.timeSinceLoadingVideo}
                   videoDuration={this.videoDuration}
-                  viewCount={this.viewCount}
+                  viewCount={this.convertCount}
                   handleSearchClick={this.handleSearchClick}
                   handleSearch={this.handleSearch}
                   handleStartSearch={this.handleStartSearch}
