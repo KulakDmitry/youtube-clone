@@ -1,51 +1,43 @@
 import React, { Component } from "react";
-import MainPage from "./MainPage";
-import Header from "./Header";
+import AsideMenu from "./AsideMenu";
 import { Link } from "react-router-dom";
 import { ReactComponent as FilterIcon } from "../icons/filter-icon.svg";
 
 class SearchPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isOpen: false,
+    };
+  }
+  handleOpenFilters = () => {
+    const { isOpen } = this.state;
+    this.setState({
+      isOpen: !isOpen,
+    });
+  };
+
   render() {
     const {
       state,
-      handleSearchClick,
-      handleSearch,
-      handleStartSearch,
       handleChoose,
-      handleSideBar,
-      handleModalApps,
-      handleModalSettings,
-      visibleApps,
-      visibleSettings,
       timeSinceLoadingVideo,
       videoDuration,
       viewCount,
-      handleModalSignUp,
-      visibleModalSingUp,
+      handleGetVideoSearchInfo,
+      handleSortSearch,
       currentUser,
-      profileSrc,
-      handleUserModalMenu,
-      visibleUserModalMenu,
     } = this.props;
+
+    const sortBy = ["Date", "Rating", "Relevance", "ViewCount"];
+
     return (
       <div>
-        <Header
-          handleSideBar={handleSideBar}
-          handleModalApps={handleModalApps}
-          handleModalSettings={handleModalSettings}
-          visibleApps={visibleApps}
-          visibleSettings={visibleSettings}
-          handleSearchClick={handleSearchClick}
-          handleSearch={handleSearch}
-          handleStartSearch={handleStartSearch}
-          handleModalSignUp={handleModalSignUp}
-          visibleModalSingUp={visibleModalSingUp}
+        <AsideMenu
+          state={state}
+          handleChoose={handleChoose}
           currentUser={currentUser}
-          profileSrc={profileSrc}
-          handleUserModalMenu={handleUserModalMenu}
-          visibleUserModalMenu={visibleUserModalMenu}
         />
-        <MainPage state={state} handleChoose={handleChoose} />
         <div
           className={` ${
             state.openSideBar
@@ -56,16 +48,34 @@ class SearchPage extends Component {
           {state.searchVideoData.length ? (
             <div>
               <div className="pl-4 md:p-0 md:pb-2 mb-8 border-b border-gray-300">
-                <button className="flex items-center cursor-pointer">
+                <button
+                  onClick={this.handleOpenFilters}
+                  className="flex items-center cursor-pointer"
+                >
                   <FilterIcon className="w-5 h-5" />
                   <span className="pl-3 text-gray-600 font-semibold text-sm">
-                    FILTERS
+                    SORT BY
                   </span>
                 </button>
               </div>
+              {this.state.isOpen && (
+                <div className="flex justify-evenly md:py-2 my-8 md:w-[60%]">
+                  {sortBy.map((i, idx) => (
+                    <button
+                      className="text-sm text-gray-600"
+                      key={idx}
+                      onClick={handleSortSearch}
+                      value={`${i}`}
+                    >
+                      {i}
+                    </button>
+                  ))}
+                </div>
+              )}
               {state.searchVideoData.map((i) => (
                 <Link
-                  to="/video"
+                  onClick={() => handleGetVideoSearchInfo(i)}
+                  to={`/video/${i.id.videoId}`}
                   key={i.id.videoId}
                   className="px-2 md:p-0 flex mb-3"
                 >

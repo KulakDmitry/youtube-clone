@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Field, Form, Formik } from "formik";
-import { auth, db } from "../firebase";
+import { auth, db } from "../../firebase";
 import { setDoc, doc } from "firebase/firestore";
 
 import {

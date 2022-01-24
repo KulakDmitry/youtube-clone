@@ -7,7 +7,7 @@ class VideoContent extends Component {
       state,
       timeSinceLoadingVideo,
       videoDuration,
-      viewCount,
+      convertCount,
       handleGetVideoInfo,
     } = this.props;
 
@@ -51,7 +51,7 @@ class VideoContent extends Component {
 
                 <span className="text-xs font-light">
                   <span className="after:content-['_•'] mr-1">
-                    {viewCount(i.statistics.viewCount)} views
+                    {convertCount(i.statistics.viewCount)} views
                   </span>
                   <span>{timeSinceLoadingVideo(i.snippet.publishedAt)}</span>
                 </span>

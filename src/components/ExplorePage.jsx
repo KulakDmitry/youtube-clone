@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import MainPage from "./MainPage";
-import Header from "./Header";
+import AsideMenu from "./AsideMenu";
 import { Link } from "react-router-dom";
 import { DateTime } from "luxon";
 import { ReactComponent as TrendIcon } from "../icons/fire-icon-trend.svg";
@@ -13,46 +12,20 @@ class ExplorePage extends Component {
     const {
       state,
       handleChoose,
-      handleSideBar,
-      handleModalApps,
-      handleModalSettings,
-      visibleApps,
-      visibleSettings,
       videoDuration,
       viewCount,
       timeSinceLoadingVideo,
-      handleSearch,
-      handleSearchClick,
-      handleStartSearch,
-      handleModalSignUp,
-      visibleModalSingUp,
+      handleGetVideoInfo,
       currentUser,
-      profileSrc,
-      handleUserModalMenu,
-      visibleUserModalMenu,
-      user,
     } = this.props;
 
     return (
       <div>
-        <Header
-          handleSideBar={handleSideBar}
-          handleModalApps={handleModalApps}
-          handleModalSettings={handleModalSettings}
-          visibleApps={visibleApps}
-          visibleSettings={visibleSettings}
-          handleSearchClick={handleSearchClick}
-          handleSearch={handleSearch}
-          handleStartSearch={handleStartSearch}
-          visibleModalSingUp={visibleModalSingUp}
-          handleModalSignUp={handleModalSignUp}
+        <AsideMenu
+          state={state}
+          handleChoose={handleChoose}
           currentUser={currentUser}
-          profileSrc={profileSrc}
-          handleUserModalMenu={handleUserModalMenu}
-          visibleUserModalMenu={visibleUserModalMenu}
-          user={user}
         />
-        <MainPage state={state} handleChoose={handleChoose} />
         <div
           className={`${
             state.openSideBar ? "md:ml-64  md:pl-20 " : "md:ml-16  md:pl-48"
@@ -79,7 +52,12 @@ class ExplorePage extends Component {
           <span className="font-semibold p-3 md:p-0">Trending videos</span>
           <div className="flex flex-col p-3 md:p-0">
             {state.video.map((i) => (
-              <Link to="/video" key={i.id} className="flex mt-4">
+              <Link
+                onClick={() => handleGetVideoInfo(i)}
+                to={`/video/${i.id}`}
+                key={i.id}
+                className="flex mt-4"
+              >
                 <div className="relative">
                   <img
                     className="w-full"

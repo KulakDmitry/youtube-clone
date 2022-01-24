@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Header from "./Header";
 import { ReactComponent as LikeIcon } from "../icons/like-icon.svg";
 import { ReactComponent as DislikeIcon } from "../icons/dislike-icon.svg";
 import { ReactComponent as SubscribeIcon } from "../icons/subscribe-youtube.svg";
@@ -12,50 +11,24 @@ import { ReactComponent as NewsButton } from "../icons/news-icon.svg";
 import { ReactComponent as LiveButton } from "../icons/live-icon.svg";
 import { ReactComponent as VRButton } from "../icons/360-video-icon.svg";
 import { Link } from "react-router-dom";
+import { ReactComponent as SubscriptionsButton } from "../icons/subscriptions-icon.svg";
+import Comments from "./Comments";
 
 class MainVideoPage extends Component {
   render() {
     const {
       openSideBar,
-      handleSideBar,
-      handleModalApps,
-      handleModalSettings,
-      visibleApps,
-      visibleSettings,
       handleChoose,
       state,
-      handleSearch,
-      handleSearchClick,
-      handleStartSearch,
-      handleModalSignUp,
-      visibleModalSingUp,
-      currentUser,
-      profileSrc,
-      handleUserModalMenu,
-      visibleUserModalMenu,
       handleGetVideoInfo,
       timeSinceLoadingVideo,
       videoDuration,
       convertCount,
+      currentUser,
+      handleAddComment,
     } = this.props;
     return (
       <div>
-        <Header
-          handleSideBar={handleSideBar}
-          handleModalApps={handleModalApps}
-          handleModalSettings={handleModalSettings}
-          visibleApps={visibleApps}
-          visibleSettings={visibleSettings}
-          handleSearchClick={handleSearchClick}
-          handleSearch={handleSearch}
-          handleStartSearch={handleStartSearch}
-          handleModalSignUp={handleModalSignUp}
-          visibleModalSingUp={visibleModalSingUp}
-          currentUser={currentUser}
-          profileSrc={profileSrc}
-          handleUserModalMenu={handleUserModalMenu}
-          visibleUserModalMenu={visibleUserModalMenu}
-        />
         {!openSideBar && (
           <div className="flex fixed flex-col w-60 border-gray-400 mt-14 text-sm z-30 bg-white h-screen ">
             <Link
@@ -83,6 +56,36 @@ class MainVideoPage extends Component {
               <ExploreButton className="w-5 h-6 mr-5" />
               <span>Explore</span>
             </Link>
+
+            {currentUser && currentUser.displayName ? (
+              <>
+                <Link
+                  to="/subscriptions"
+                  onClick={() => handleChoose("subscriptions")}
+                  className={
+                    state.isChoose === "subscriptions"
+                      ? "flex items-center px-6 py-2 bg-gray-200 hover:bg-gray-300 font-semibold"
+                      : "flex items-center px-6 py-2 hover:bg-gray-100 font-light"
+                  }
+                >
+                  <SubscriptionsButton className="w-5 h-6  mr-5" />
+                  <span>Subs</span>
+                </Link>
+
+                <Link
+                  to="/liked-videos"
+                  onClick={() => handleChoose("liked-videos")}
+                  className={
+                    state.isChoose === "liked-videos"
+                      ? "flex items-center px-6 py-2 bg-gray-200 hover:bg-gray-300 font-semibold"
+                      : "flex items-center px-6 py-2 hover:bg-gray-100 font-light"
+                  }
+                >
+                  <LikeIcon className="w-5 h-6  mr-5" />
+                  <span>Liked videos</span>
+                </Link>
+              </>
+            ) : null}
 
             <p className="ml-5 pt-3 text-gray-500 border-t">BEST OF YOUTUBE</p>
 
@@ -113,7 +116,7 @@ class MainVideoPage extends Component {
           </div>
         )}
 
-        <div className="py-20 md:flex md:px-14 md:bg-gray-50">
+        <div className="py-20 md:flex md:px-14">
           <div className="md:w-2/3">
             <iframe
               className="w-full h-[245px]  md:h-[550px]"
@@ -145,7 +148,7 @@ class MainVideoPage extends Component {
               </div>
             </div>
             <div className="flex items-center border-b p-3 md:p-0 md:pb-10">
-              <div className="flex flex-col pl-4 mt-4">
+              <div className="flex flex-col pl-4 mt-4 w-full">
                 <div className="flex items-center">
                   <div className="w-10 h-10 mr-2">
                     <img
@@ -155,9 +158,12 @@ class MainVideoPage extends Component {
                     />
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-sm font-semibold cursor-pointer">
+                    <a
+                      href={`https://www.youtube.com/channel/${state.videoInfo.channelUrl}`}
+                      className="text-sm font-semibold cursor-pointer"
+                    >
                       {state.videoInfo.channelTitle}
-                    </span>
+                    </a>
                     <span className="text-xs text-gray-600">
                       {state.videoInfo.subscribersCount} subscribers
                     </span>
@@ -176,47 +182,12 @@ class MainVideoPage extends Component {
               <div className="pl-4 pb-4 md:pl-0 md:pb-0">
                 {state.videoInfo.commentCount} Comments
               </div>
-
-              {state.videoComments?.map((i) => (
-                <div key={i.id} className="flex p-3 md:p-0 md:py-8">
-                  <div>
-                    <img
-                      className="rounded-full cursor-pointer"
-                      src={
-                        i.snippet.topLevelComment.snippet.authorProfileImageUrl
-                      }
-                      alt=""
-                    />
-                  </div>
-                  <div className="flex flex-col pl-4 w-full">
-                    <p>
-                      <a
-                        href={
-                          i.snippet.topLevelComment.snippet.authorChannelUrl
-                        }
-                        className="text-sm font-semibold pr-2 cursor-pointer"
-                      >
-                        {i.snippet.topLevelComment.snippet.authorDisplayName}
-                      </a>
-                      <span className=" text-xs text-gray-500">
-                        {timeSinceLoadingVideo(
-                          i.snippet.topLevelComment.snippet.publishedAt
-                        )}
-                      </span>
-                    </p>
-                    <span className="text-sm">
-                      {i.snippet.topLevelComment.snippet.textOriginal}
-                    </span>
-                    <div className="flex items-center pt-4">
-                      <LikeIcon className="w-4 h-4 cursor-pointer" />
-                      <span className="text-xs text-gray-600 pr-6 pl-2">
-                        {i.snippet.topLevelComment.snippet.likeCount}
-                      </span>
-                      <DislikeIcon className="w-4 h-4 cursor-pointer" />
-                    </div>
-                  </div>
-                </div>
-              ))}
+              <Comments
+                state={state}
+                timeSinceLoadingVideo={timeSinceLoadingVideo}
+                handleAddComment={handleAddComment}
+                currentUser={currentUser}
+              />
             </div>
           </div>
           <div className="md:w-1/3 md:pl-7">

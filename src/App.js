@@ -1,19 +1,20 @@
 import Header from "./components/Header";
-import MainPage from "./components/MainPage";
 import React, { Component } from "react";
 import MainVideoPage from "./components/MainVideoPage";
 import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import ExplorePage from "./components/ExplorePage";
-import VideoContent from "./components/VideoContent";
 import * as numeral from "numeral";
 import * as moment from "moment";
 import * as momentDurationFormatSetup from "moment-duration-format";
 import SearchPage from "./components/SearchPage";
-import MainPageTags from "./components/MainPageTags";
-import ModalSignUp from "./components/ModalSignUp";
+import ModalSignUp from "./components/ModalMenu/ModalSignUp";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
-import ModalUserMenu from "./components/ModalUserMenu";
+import ModalUserMenu from "./components/ModalMenu/ModalUserMenu";
+import MainPage from "./components/MainPage";
+import SubscriptionsPage from "./components/SubscriptionsPage";
+import LikedVideosPage from "./components/LikedVideosPage";
+import defaultAvatar from "./icons/profileDefaultAvatar.jpg";
 
 const { DateTime } = require("luxon");
 const api_key = process.env.REACT_APP_API_KEY;
@@ -40,6 +41,7 @@ class App extends Component {
       fetching: false,
       pageToken: "",
       videoInfo: {},
+      videoComments: [],
     };
   }
 
@@ -54,7 +56,7 @@ class App extends Component {
     this.getSearchData(searchText).then();
   };
 
-  handleSearch = (e) => {
+  handleSearchInput = (e) => {
     this.setState({
       searchText: e.target.value,
     });
@@ -81,6 +83,8 @@ class App extends Component {
       .then((data) => {
         video.duration = data.items[0].contentDetails.duration;
         video.views = data.items[0].statistics.viewCount;
+        video.likeCount = data.items[0].statistics.likeCount;
+        video.commentCount = data.items[0].statistics.commentCount;
       })
       .catch((err) => console.log(err));
   };
@@ -115,7 +119,7 @@ class App extends Component {
     )
       .then((res) => res.json())
       .then((data) => {
-        data.items.forEach((item) => this.getChannelIcon(item));
+        data.items.forEach((item) => this.getChannelData(item));
         data.items.forEach((item) => this.getDataForSearchVideo(item));
         this.setState({
           searchVideoData: data.items,
@@ -151,7 +155,7 @@ class App extends Component {
     });
   };
 
-  getChannelIcon = (video) => {
+  getChannelData = (video) => {
     fetch(
       channelData +
         new URLSearchParams({
@@ -164,6 +168,7 @@ class App extends Component {
       .then((data) => {
         video.channelThumbnail = data.items[0].snippet.thumbnails.default.url;
         video.subscribersCount = data.items[0].statistics.subscriberCount;
+        video.channelUrl = data.items[0].id;
       })
       .catch((err) => console.log(err));
   };
@@ -187,7 +192,7 @@ class App extends Component {
     )
       .then((res) => res.json())
       .then((data) => {
-        data.items.forEach((item) => this.getChannelIcon(item));
+        data.items.forEach((item) => this.getChannelData(item));
         this.setState({
           video: data.items,
         });
@@ -244,6 +249,27 @@ class App extends Component {
     this.setState({ user });
   };
 
+  handleGetVideoSearchInfo = (video) => {
+    this.getCommentsData(video.id.videoId);
+    this.setState({
+      videoInfo: {
+        id: video.id.videoId,
+        title: video.snippet.title,
+        description: video.snippet.description,
+        views: this.convertCount(video.views),
+        channelTitle: video.snippet.channelTitle,
+        likeCount: this.convertCount(video.likeCount),
+        commentCount: this.convertCount(video.commentCount),
+        subscribersCount: this.convertCount(video.subscribersCount),
+        publishedAt: DateTime.fromISO(video.snippet.publishedAt).toLocaleString(
+          DateTime.DATE_MED
+        ),
+        channelThumbnail: video.channelThumbnail,
+        channelUrl: video.channelUrl,
+      },
+    });
+  };
+
   handleGetVideoInfo = (video) => {
     this.getCommentsData(video.id);
     this.setState({
@@ -260,7 +286,52 @@ class App extends Component {
           DateTime.DATE_MED
         ),
         channelThumbnail: video.channelThumbnail,
+        channelUrl: video.channelUrl,
       },
+    });
+  };
+
+  handleSortSearch = (e) => {
+    const { searchText } = this.state;
+    fetch(
+      searchData +
+        new URLSearchParams({
+          key: api_key,
+          part: "snippet",
+          maxResults: 5,
+          q: searchText,
+          order: e.target.value,
+        })
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        data.items.forEach((item) => this.getChannelData(item));
+        data.items.forEach((item) => this.getDataForSearchVideo(item));
+        this.setState({
+          searchVideoData: data.items,
+          pageToken: data.nextPageToken,
+        });
+      })
+      .catch((err) => console.log(err));
+  };
+
+  handleAddComment = (text) => {
+    const { videoComments, currentUser, user, videoInfo } = this.state;
+    this.setState({
+      videoComments: [
+        {
+          videoComment: {
+            authorProfileImageUrl:
+              user && user.profileSrc ? user.profileSrc : defaultAvatar,
+            authorDisplayName: currentUser.displayName,
+            publishedAt: moment().toISOString(),
+            textOriginal: text,
+            likeCount: 0,
+          },
+        },
+        ...videoComments,
+      ],
+      videoInfo: { ...videoInfo, commentCount: videoInfo.commentCount + 1 },
     });
   };
 
@@ -289,69 +360,53 @@ class App extends Component {
               user={user}
             />
           ) : null}
+          <Header
+            handleSideBar={this.handleSideBar}
+            handleModalApps={this.handleModalYouTubeApps}
+            handleModalSettings={this.handleModalSettings}
+            visibleApps={visibleYoutubeApps}
+            visibleSettings={visibleSettings}
+            handleSearchClick={this.handleSearchClick}
+            state={this.state}
+            handleSearch={this.handleSearchInput}
+            handleStartSearch={this.handleStartSearch}
+            searchText={this.state.searchText}
+            visibleModalSingUp={visibleModalSingUp}
+            handleModalSignUp={this.handleModalSignUp}
+            currentUser={currentUser}
+            user={user}
+            setUser={this.setUser}
+            handleUserModalMenu={this.handleUserModalMenu}
+            visibleUserModalMenu={visibleUserModalMenu}
+          />
           <Routes>
             <Route
               path="/"
               element={
-                <>
-                  <Header
-                    handleSideBar={this.handleSideBar}
-                    handleModalApps={this.handleModalYouTubeApps}
-                    handleModalSettings={this.handleModalSettings}
-                    visibleApps={visibleYoutubeApps}
-                    visibleSettings={visibleSettings}
-                    handleSearchClick={this.handleSearchClick}
-                    state={this.state}
-                    handleSearch={this.handleSearch}
-                    handleStartSearch={this.handleStartSearch}
-                    searchText={this.state.searchText}
-                    visibleModalSingUp={visibleModalSingUp}
-                    handleModalSignUp={this.handleModalSignUp}
-                    currentUser={currentUser}
-                    user={user}
-                    handleUserModalMenu={this.handleUserModalMenu}
-                    visibleUserModalMenu={visibleUserModalMenu}
-                  />
-                  <MainPage
-                    state={this.state}
-                    handleChoose={this.handleChoose}
-                  />
-                  <MainPageTags state={this.state} />
-                  <VideoContent
-                    state={this.state}
-                    timeSinceLoadingVideo={this.timeSinceLoadingVideo}
-                    videoDuration={this.videoDuration}
-                    viewCount={this.convertCount}
-                    handleGetVideoInfo={this.handleGetVideoInfo}
-                  />
-                </>
+                <MainPage
+                  state={this.state}
+                  handleChoose={this.handleChoose}
+                  videoDuration={this.videoDuration}
+                  convertCount={this.convertCount}
+                  handleGetVideoInfo={this.handleGetVideoInfo}
+                  timeSinceLoadingVideo={this.timeSinceLoadingVideo}
+                  currentUser={currentUser}
+                />
               }
             />
             <Route
               path="/video/:id"
               element={
                 <MainVideoPage
-                  handleSearchClick={this.handleSearchClick}
-                  handleSearch={this.handleSearch}
-                  handleStartSearch={this.handleStartSearch}
                   openSideBar={openSideBar}
-                  handleSideBar={this.handleSideBar}
-                  handleModalApps={this.handleModalYouTubeApps}
-                  handleModalSettings={this.handleModalSettings}
-                  visibleApps={visibleYoutubeApps}
-                  visibleSettings={visibleSettings}
                   handleChoose={this.handleChoose}
                   state={this.state}
-                  visibleModalSingUp={visibleModalSingUp}
-                  handleModalSignUp={this.handleModalSignUp}
-                  currentUser={currentUser}
-                  user={user}
-                  handleUserModalMenu={this.handleUserModalMenu}
-                  visibleUserModalMenu={visibleUserModalMenu}
                   handleGetVideoInfo={this.handleGetVideoInfo}
                   timeSinceLoadingVideo={this.timeSinceLoadingVideo}
                   videoDuration={this.videoDuration}
                   convertCount={this.convertCount}
+                  currentUser={currentUser}
+                  handleAddComment={this.handleAddComment}
                 />
               }
             />
@@ -359,26 +414,41 @@ class App extends Component {
               path="/explore"
               element={
                 <ExplorePage
-                  handleSearchClick={this.handleSearchClick}
-                  handleSearch={this.handleSearch}
-                  handleStartSearch={this.handleStartSearch}
-                  openSideBar={openSideBar}
-                  handleSideBar={this.handleSideBar}
-                  handleModalApps={this.handleModalYouTubeApps}
-                  handleModalSettings={this.handleModalSettings}
-                  visibleApps={visibleYoutubeApps}
-                  visibleSettings={visibleSettings}
                   handleChoose={this.handleChoose}
                   state={this.state}
                   timeSinceLoadingVideo={this.timeSinceLoadingVideo}
                   videoDuration={this.videoDuration}
                   viewCount={this.convertCount}
-                  visibleModalSingUp={visibleModalSingUp}
-                  handleModalSignUp={this.handleModalSignUp}
+                  handleGetVideoInfo={this.handleGetVideoInfo}
                   currentUser={currentUser}
-                  user={user}
-                  handleUserModalMenu={this.handleUserModalMenu}
-                  visibleUserModalMenu={visibleUserModalMenu}
+                />
+              }
+            />
+            <Route
+              path="/subscriptions"
+              element={
+                <SubscriptionsPage
+                  handleChoose={this.handleChoose}
+                  state={this.state}
+                  timeSinceLoadingVideo={this.timeSinceLoadingVideo}
+                  videoDuration={this.videoDuration}
+                  viewCount={this.convertCount}
+                  handleGetVideoInfo={this.handleGetVideoInfo}
+                  currentUser={currentUser}
+                />
+              }
+            />
+            <Route
+              path="/liked-videos"
+              element={
+                <LikedVideosPage
+                  handleChoose={this.handleChoose}
+                  state={this.state}
+                  timeSinceLoadingVideo={this.timeSinceLoadingVideo}
+                  videoDuration={this.videoDuration}
+                  viewCount={this.convertCount}
+                  handleGetVideoInfo={this.handleGetVideoInfo}
+                  currentUser={currentUser}
                 />
               }
             />
@@ -386,26 +456,14 @@ class App extends Component {
               path="/search"
               element={
                 <SearchPage
-                  openSideBar={openSideBar}
-                  handleSideBar={this.handleSideBar}
-                  handleModalApps={this.handleModalYouTubeApps}
-                  handleModalSettings={this.handleModalSettings}
-                  visibleApps={visibleYoutubeApps}
-                  visibleSettings={visibleSettings}
                   handleChoose={this.handleChoose}
                   state={this.state}
                   timeSinceLoadingVideo={this.timeSinceLoadingVideo}
                   videoDuration={this.videoDuration}
                   viewCount={this.convertCount}
-                  handleSearchClick={this.handleSearchClick}
-                  handleSearch={this.handleSearch}
-                  handleStartSearch={this.handleStartSearch}
-                  visibleModalSingUp={visibleModalSingUp}
-                  handleModalSignUp={this.handleModalSignUp}
+                  handleGetVideoSearchInfo={this.handleGetVideoSearchInfo}
+                  handleSortSearch={this.handleSortSearch}
                   currentUser={currentUser}
-                  user={user}
-                  handleUserModalMenu={this.handleUserModalMenu}
-                  visibleUserModalMenu={visibleUserModalMenu}
                 />
               }
             />

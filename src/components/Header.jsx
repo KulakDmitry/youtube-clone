@@ -7,21 +7,18 @@ import { ReactComponent as AppsLogo } from "../icons/apps.svg";
 import { ReactComponent as SettingsLogo } from "../icons/three-dots-setings.svg";
 import { ReactComponent as ProfileLogo } from "../icons/prolifeIcon.svg";
 import { ReactComponent as SearchButtonLogo } from "../icons/search-button.svg";
-import ModalYouTubeApps from "./ModalButtons/ModalYouTubeApps";
-import ModalSettings from "./ModalButtons/ModalSettings";
+import ModalYouTubeApps from "./ModalMenu/ModalYouTubeApps";
+import ModalSettings from "./ModalMenu/ModalSettings";
 import { Link } from "react-router-dom";
 import defaultAvatar from "../icons/profileDefaultAvatar.jpg";
 import { withRouter } from "../withRouter";
 
 class Header extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   handleSearch = (e) => {
     e.preventDefault();
     this.props.navigate("/search");
   };
+
   render() {
     const {
       searchText,
@@ -82,7 +79,10 @@ class Header extends Component {
             />
 
             {currentUser ? (
-              <button onClick={handleUserModalMenu} className="mx-1 md:ml-10">
+              <button
+                onClick={handleUserModalMenu}
+                className="mx-1 md:ml-10 w-8 h-8"
+              >
                 <img
                   className="object-cover w-8 h-8 rounded-full"
                   src={
