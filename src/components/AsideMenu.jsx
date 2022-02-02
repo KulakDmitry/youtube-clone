@@ -10,20 +10,21 @@ import { ReactComponent as NewsButton } from "../icons/news-icon.svg";
 import { ReactComponent as LiveButton } from "../icons/live-icon.svg";
 import { ReactComponent as VRButton } from "../icons/360-video-icon.svg";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 class AsideMenu extends Component {
   render() {
-    const { state, handleChoose, currentUser } = this.props;
+    const { handleChoose, currentUser, isChoose, openSideBar } = this.props;
     return (
       <>
-        <div className="fixed w-full z-10 hidden md:block">
-          {state.openSideBar ? (
-            <div className="flex fixed  flex-col w-60 border-gray-400 mt-16 text-sm z-30 ">
+        <div className="fixed w-full z-10">
+          {openSideBar ? (
+            <div className="flex fixed mt-14 left-0 right-0 bg-white bottom-0 top-0  flex-col md:w-60 border-gray-400 md:mt-16 text-sm z-30 ">
               <Link
                 to="/"
                 onClick={() => handleChoose("home")}
                 className={
-                  state.isChoose === "home"
+                  isChoose === "home"
                     ? "flex items-center px-6 py-2 bg-gray-200 hover:bg-gray-300 font-semibold"
                     : "flex items-center px-6 py-2 hover:bg-gray-100 font-light"
                 }
@@ -36,7 +37,7 @@ class AsideMenu extends Component {
                 to="/explore"
                 onClick={() => handleChoose("explore")}
                 className={
-                  state.isChoose === "explore"
+                  isChoose === "explore"
                     ? "flex items-center px-6 py-2 bg-gray-200 hover:bg-gray-300 font-semibold"
                     : "flex items-center px-6 py-2 hover:bg-gray-100 font-light"
                 }
@@ -51,7 +52,7 @@ class AsideMenu extends Component {
                     to="/subscriptions"
                     onClick={() => handleChoose("subscriptions")}
                     className={
-                      state.isChoose === "subscriptions"
+                      isChoose === "subscriptions"
                         ? "flex items-center px-6 py-2 bg-gray-200 hover:bg-gray-300 font-semibold"
                         : "flex items-center px-6 py-2 hover:bg-gray-100 font-light"
                     }
@@ -64,7 +65,7 @@ class AsideMenu extends Component {
                     to="/liked-videos"
                     onClick={() => handleChoose("liked-videos")}
                     className={
-                      state.isChoose === "liked-videos"
+                      isChoose === "liked-videos"
                         ? "flex items-center px-6 py-2 bg-gray-200 hover:bg-gray-300 font-semibold"
                         : "flex items-center px-6 py-2 hover:bg-gray-100 font-light"
                     }
@@ -82,7 +83,7 @@ class AsideMenu extends Component {
               <button
                 onClick={() => handleChoose("music")}
                 className={
-                  state.isChoose === "music"
+                  isChoose === "music"
                     ? "flex items-center px-6 py-2 bg-gray-200 hover:bg-gray-300 font-semibold"
                     : "flex items-center px-6 py-2 hover:bg-gray-100 font-light"
                 }
@@ -93,7 +94,7 @@ class AsideMenu extends Component {
               <button
                 onClick={() => handleChoose("sport")}
                 className={
-                  state.isChoose === "sport"
+                  isChoose === "sport"
                     ? "flex items-center px-6 py-2 bg-gray-200 hover:bg-gray-300 font-semibold"
                     : "flex items-center px-6 py-2 hover:bg-gray-100 font-light"
                 }
@@ -104,7 +105,7 @@ class AsideMenu extends Component {
               <button
                 onClick={() => handleChoose("games")}
                 className={
-                  state.isChoose === "games"
+                  isChoose === "games"
                     ? "flex items-center px-6 py-2 bg-gray-200 hover:bg-gray-300 font-semibold"
                     : "flex items-center px-6 py-2 hover:bg-gray-100 font-light"
                 }
@@ -115,7 +116,7 @@ class AsideMenu extends Component {
               <button
                 onClick={() => handleChoose("news")}
                 className={
-                  state.isChoose === "news"
+                  isChoose === "news"
                     ? "flex items-center px-6 py-2 bg-gray-200 hover:bg-gray-300 font-semibold"
                     : "flex items-center px-6 py-2 hover:bg-gray-100 font-light"
                 }
@@ -126,7 +127,7 @@ class AsideMenu extends Component {
               <button
                 onClick={() => handleChoose("live")}
                 className={
-                  state.isChoose === "live"
+                  isChoose === "live"
                     ? "flex items-center px-6 py-2 bg-gray-200 hover:bg-gray-300 font-semibold"
                     : "flex items-center px-6 py-2 hover:bg-gray-100 font-light"
                 }
@@ -137,7 +138,7 @@ class AsideMenu extends Component {
               <button
                 onClick={() => handleChoose("360 video")}
                 className={
-                  state.isChoose === "360 video"
+                  isChoose === "360 video"
                     ? "flex items-center px-6 py-2 bg-gray-200 hover:bg-gray-300 font-semibold"
                     : "flex items-center px-6 py-2 hover:bg-gray-100 font-light"
                 }
@@ -147,12 +148,12 @@ class AsideMenu extends Component {
               </button>
             </div>
           ) : (
-            <div className="flex fixed flex-col w-16 border-gray-400 mt-16 text-sm z-30">
+            <div className="hidden md:flex md:fixed flex-col w-16 border-gray-400 mt-16 text-sm z-30">
               <Link
                 to="/"
                 onClick={() => handleChoose("home")}
                 className={
-                  state.isChoose === "home"
+                  isChoose === "home"
                     ? "flex flex-col items-center pl-1 py-2 bg-gray-200 hover:bg-gray-300 font-semibold text-xs"
                     : "flex flex-col items-center pl-1 py-2 hover:bg-gray-100 font-light text-xs"
                 }
@@ -165,7 +166,7 @@ class AsideMenu extends Component {
                 to="/explore"
                 onClick={() => handleChoose("explore")}
                 className={
-                  state.isChoose === "explore"
+                  isChoose === "explore"
                     ? "flex flex-col items-center pl-1 py-2 bg-gray-200 hover:bg-gray-300 font-semibold text-xs"
                     : "flex flex-col items-center pl-1 py-2 hover:bg-gray-100 font-light text-xs"
                 }
@@ -180,7 +181,7 @@ class AsideMenu extends Component {
                     to="/subscriptions"
                     onClick={() => handleChoose("subscriptions")}
                     className={
-                      state.isChoose === "subscriptions"
+                      isChoose === "subscriptions"
                         ? "flex flex-col items-center pl-1 py-2 bg-gray-200 hover:bg-gray-300 font-semibold text-xs"
                         : "flex flex-col items-center pl-1 py-2 hover:bg-gray-100 font-light text-xs"
                     }
@@ -193,7 +194,7 @@ class AsideMenu extends Component {
                     to="/liked-videos"
                     onClick={() => handleChoose("liked-videos")}
                     className={
-                      state.isChoose === "liked-videos"
+                      isChoose === "liked-videos"
                         ? "flex flex-col items-center pl-1 py-2 bg-gray-200 hover:bg-gray-300 font-semibold text-xs"
                         : "flex flex-col items-center pl-1 py-2 hover:bg-gray-100 font-light text-xs"
                     }
@@ -211,4 +212,11 @@ class AsideMenu extends Component {
   }
 }
 
-export default AsideMenu;
+const mapStateToProps = (state) => {
+  return {
+    isChoose: state.searchData.isChoose,
+    openSideBar: state.modalWindows.openSideBar,
+  };
+};
+
+export default connect(mapStateToProps)(AsideMenu);

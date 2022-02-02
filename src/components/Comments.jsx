@@ -3,6 +3,7 @@ import { ReactComponent as LikeIcon } from "../icons/like-icon.svg";
 import { ReactComponent as DislikeIcon } from "../icons/dislike-icon.svg";
 import AddComment from "./AddComment";
 import moment from "moment";
+import { connect } from "react-redux";
 
 const COMMENTS_MIN_COUNT = 5;
 
@@ -21,6 +22,7 @@ class Comments extends Component {
       commentSlice: commentSlice + COMMENTS_MIN_COUNT,
     });
   };
+
   render() {
     const {
       comments,
@@ -30,16 +32,22 @@ class Comments extends Component {
       timeSinceLoadingVideo,
       handleAddComment,
       state,
+      videoComments,
+      videoInfo,
     } = this.props;
     const { commentSlice } = this.state;
 
     return (
       <>
         {currentUser && (
-          <AddComment handleAddComment={handleAddComment} state={state} />
+          <AddComment
+            handleAddComment={handleAddComment}
+            state={state}
+            videoInfo={videoInfo}
+            currentUser={currentUser}
+          />
         )}
-
-        {state.videoComments?.slice(0, commentSlice).map((i) => (
+        {videoComments?.slice(0, commentSlice).map((i) => (
           <div key={i.id} className="flex p-3 md:p-0 md:py-8">
             <div>
               <img
@@ -91,19 +99,24 @@ class Comments extends Component {
             </div>
           </div>
         ))}
-        {state.videoComments?.length > 5 &&
-          commentSlice < state.videoComments.length && (
-            <button
-              onClick={this.handleViewMoreComments}
-              type="button"
-              className="ml-4 text-sm cursor-pointer text-gray-400"
-            >
-              SHOW MORE
-            </button>
-          )}
+        {videoComments?.length > 5 && commentSlice < videoComments.length && (
+          <button
+            onClick={this.handleViewMoreComments}
+            type="button"
+            className="ml-4 text-sm cursor-pointer text-gray-400"
+          >
+            SHOW MORE
+          </button>
+        )}
       </>
     );
   }
 }
 
-export default Comments;
+const mapStateToProps = (state) => {
+  return {
+    videoComments: state.commentsData.videoComments,
+  };
+};
+
+export default connect(mapStateToProps)(Comments);

@@ -6,7 +6,6 @@ import VideoContent from "./VideoContent";
 class MainPage extends Component {
   render() {
     const {
-      state,
       handleChoose,
       timeSinceLoadingVideo,
       videoDuration,
@@ -16,14 +15,9 @@ class MainPage extends Component {
     } = this.props;
     return (
       <>
-        <AsideMenu
-          state={state}
-          handleChoose={handleChoose}
-          currentUser={currentUser}
-        />
-        <MainPageTags state={state} />
+        <AsideMenu handleChoose={handleChoose} currentUser={currentUser} />
+        <MainPageTags />
         <VideoContent
-          state={state}
           timeSinceLoadingVideo={timeSinceLoadingVideo}
           videoDuration={videoDuration}
           convertCount={convertCount}

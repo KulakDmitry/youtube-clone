@@ -7,11 +7,14 @@ import { ReactComponent as AppsLogo } from "../icons/apps.svg";
 import { ReactComponent as SettingsLogo } from "../icons/three-dots-setings.svg";
 import { ReactComponent as ProfileLogo } from "../icons/prolifeIcon.svg";
 import { ReactComponent as SearchButtonLogo } from "../icons/search-button.svg";
-import ModalYouTubeApps from "./ModalMenu/ModalYouTubeApps";
-import ModalSettings from "./ModalMenu/ModalSettings";
+import ModalYouTubeApps from "./ModalMenu/ModalYoutubeApps/ModalYouTubeApps";
+import ModalSettings from "./ModalMenu/ModalSettings/ModalSettings";
 import { Link } from "react-router-dom";
 import defaultAvatar from "../icons/profileDefaultAvatar.jpg";
 import { withRouter } from "../withRouter";
+import { connect } from "react-redux";
+import { clearData, getSearchData } from "./store/searchVideoData";
+import { loadingFalse, loadingTrue } from "./store/loadingData";
 
 class Header extends Component {
   handleSearch = (e) => {
@@ -19,11 +22,30 @@ class Header extends Component {
     this.props.navigate("/search");
   };
 
+  handleStartSearch = async (e) => {
+    const { dispatch, searchText } = this.props;
+
+    if (e.key !== "Enter") {
+      return;
+    }
+    await dispatch(clearData());
+    await dispatch(loadingTrue());
+    await dispatch(getSearchData(searchText));
+    await dispatch(loadingFalse());
+  };
+
+  handleSearchClick = async () => {
+    const { dispatch, searchText } = this.props;
+
+    await dispatch(clearData());
+    await dispatch(loadingTrue());
+    await dispatch(getSearchData(searchText));
+    await dispatch(loadingFalse());
+  };
+
   render() {
     const {
       searchText,
-      handleSearchClick,
-      handleStartSearch,
       handleSideBar,
       handleModalApps,
       handleModalSettings,
@@ -41,7 +63,7 @@ class Header extends Component {
           <div className="flex items-center md:w-1/4">
             <BurgerMenuIcon
               onClick={handleSideBar}
-              className="hidden md:block md:w-6 md:ml-6 md:cursor-pointer"
+              className="w-5 ml-2 cursor-pointer md:w-6 md:ml-6 "
             />
             <Link to="/">
               <YoutubeLogo className="w-20 h-14 cursor-pointer md:w-32 md:ml-2" />
@@ -57,11 +79,11 @@ class Header extends Component {
               type="text"
               value={searchText}
               onChange={handleSearch}
-              onKeyDown={handleStartSearch}
+              onKeyDown={this.handleStartSearch}
             />
             <Link
               to="/search"
-              onClick={handleSearchClick}
+              onClick={this.handleSearchClick}
               className="hidden md:block md:border md:p-2 md:px-6 md:bg-gray-100 md:hover:bg-gray-200"
             >
               <SearchButtonLogo className="w-4 md:w-6" />
@@ -109,4 +131,15 @@ class Header extends Component {
   }
 }
 
-export default withRouter(Header);
+const mapStateToProps = (state) => {
+  return {
+    user: state.user.user,
+    searchText: state.searchData.searchText,
+    isLoading: state.loading.isLoading,
+    visibleSettings: state.modalWindows.visibleSettings,
+    visibleModalSingUp: state.modalWindows.visibleModalSingUp,
+    visibleUserModalMenu: state.modalWindows.visibleUserModalMenu,
+  };
+};
+
+export default connect(mapStateToProps)(withRouter(Header));

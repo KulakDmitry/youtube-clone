@@ -1,33 +1,34 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
 class MainPageTags extends Component {
   render() {
-    const { state } = this.props;
+    const { openSideBar } = this.props;
     const arr = [
-      "JS",
-      "Python",
+      "Podcasts",
+      "Music",
       "Drawing",
       "Computer",
       "Space",
-      "Sales Sales",
-      "JS",
-      "Python",
+      "Comedy Club",
+      "Live",
+      "Music",
       "Drawing",
       "Computer",
       "Space",
-      "Sales Sales",
-      "JS",
-      "Python",
+      "Comedy Club",
+      "Podcasts",
+      "Music",
       "Drawing",
       "Computer",
       "Space",
-      "Sales Sales",
+      "Comedy Club",
     ];
     return (
       <div
         className={`${
-          state.openSideBar ? "ml-64" : "ml-16"
-        } hidden md:z-20 md:bg-white md:flex md:pt-16 md:pl-6 md:ml-64 md:border-b md:py-3 md:overflow-auto md:space-x-3 md:whitespace-nowrap text-sm`}
+          openSideBar ? "ml-64 md:ml-64" : "ml-16"
+        } hidden md:z-20 md:bg-white md:flex md:pt-16 md:pl-6  md:border-b md:py-3 md:overflow-auto md:space-x-3 md:whitespace-nowrap text-sm`}
       >
         <p className="border rounded-full bg-black p-1 px-3 cursor-pointer text-white">
           All
@@ -45,4 +46,10 @@ class MainPageTags extends Component {
   }
 }
 
-export default MainPageTags;
+const mapStateToProps = (state) => {
+  return {
+    openSideBar: state.modalWindows.openSideBar,
+  };
+};
+
+export default connect(mapStateToProps)(MainPageTags);

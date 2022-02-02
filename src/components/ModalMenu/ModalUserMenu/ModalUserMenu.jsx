@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import { ReactComponent as SignOutIcon } from "../../icons/sign-out-icon.svg";
-import { ReactComponent as SettingsIcon } from "../../icons/settings-icon.svg";
-import { ReactComponent as AddProfileIcon } from "../../icons/addProfileIcon.svg";
-import { auth, db, storage } from "../../firebase";
+import { ReactComponent as SignOutIcon } from "../../../icons/sign-out-icon.svg";
+import { ReactComponent as SettingsIcon } from "../../../icons/settings-icon.svg";
+import { ReactComponent as AddProfileIcon } from "../../../icons/addProfileIcon.svg";
+import { auth } from "../../../firebase";
 import { signOut } from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import defaultAvatar from "../../icons/profileDefaultAvatar.jpg";
-import { v4 as uuidv4 } from "uuid";
+import defaultAvatar from "../../../icons/profileDefaultAvatar.jpg";
+import { connect } from "react-redux";
+import { updateUserData } from "../../store/updateUserData";
+import { getUser } from "../../store/userData";
 
 class ModalUserMenu extends Component {
   constructor(props) {
@@ -17,14 +17,9 @@ class ModalUserMenu extends Component {
   }
 
   componentDidMount() {
-    const { currentUser, setUser } = this.props;
+    const { currentUser, dispatch } = this.props;
 
-    const docRef = doc(db, "users", currentUser.displayName);
-    getDoc(docRef).then((docSnap) => {
-      if (docSnap.exists()) {
-        setUser(docSnap.data());
-      }
-    });
+    dispatch(getUser(currentUser));
   }
 
   handleFileUpdate = () => {
@@ -32,17 +27,9 @@ class ModalUserMenu extends Component {
   };
 
   handleSend = (e) => {
-    const { currentUser } = this.props;
+    const { currentUser, dispatch } = this.props;
     const file = e.target.files[0];
-    const storageRef = ref(storage, uuidv4());
-    uploadBytes(storageRef, file).then(async (snapshot) => {
-      const downloadUrl = await getDownloadURL(snapshot.ref);
-      await setDoc(doc(db, "users", currentUser.displayName), {
-        username: currentUser.displayName,
-        profileSrc: downloadUrl,
-        fullName: "",
-      });
-    });
+    dispatch(updateUserData({ file, username: currentUser.displayName }));
   };
 
   handelSignOut = () => {
@@ -96,4 +83,8 @@ class ModalUserMenu extends Component {
   }
 }
 
-export default ModalUserMenu;
+const mapStateToProps = (state) => {
+  return { user: state.user.user };
+};
+
+export default connect(mapStateToProps)(ModalUserMenu);

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { ReactComponent as SettingsAppearanceIcon } from "../../icons/appearance.svg";
-import { ReactComponent as SettingsLanguageIcon } from "../../icons/language-icon.svg";
+import { ReactComponent as SettingsAppearanceIcon } from "../../../icons/appearance.svg";
+import { ReactComponent as SettingsLanguageIcon } from "../../../icons/language-icon.svg";
 
 class ModalSettings extends Component {
   render() {

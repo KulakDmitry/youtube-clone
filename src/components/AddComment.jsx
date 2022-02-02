@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import defaultAvatar from "../icons/profileDefaultAvatar.jpg";
+import { connect } from "react-redux";
+import { addComment } from "./store/videoCommentsData";
 
 class AddComment extends Component {
   constructor(props) {
@@ -22,7 +24,18 @@ class AddComment extends Component {
     if (!comment.trim()) {
       return;
     }
-    handleAddComment(comment);
+    const { videoComments, user, dispatch, videoInfo, currentUser } =
+      this.props;
+    dispatch(
+      addComment({
+        comment,
+        videoComments,
+        currentUser,
+        videoInfo,
+        user,
+      })
+    );
+    // handleAddComment(comment);
     this.clearInput();
   };
 
@@ -33,18 +46,14 @@ class AddComment extends Component {
   };
   render() {
     const { comment } = this.state;
-    const { state } = this.props;
+    const { user } = this.props;
 
     const isDisabled = !comment.trim();
     return (
       <div className="flex items-center">
         <img
           className="rounded-full w-12 h-12 mb-4"
-          src={
-            state.user && state.user.profileSrc
-              ? state.user.profileSrc
-              : defaultAvatar
-          }
+          src={user && user.profileSrc ? user.profileSrc : defaultAvatar}
           alt=""
         />
 
@@ -74,4 +83,11 @@ class AddComment extends Component {
   }
 }
 
-export default AddComment;
+const mapStateToProps = (state) => {
+  return {
+    user: state.user.user,
+    videoComments: state.commentsData.videoComments,
+  };
+};
+
+export default connect(mapStateToProps)(AddComment);

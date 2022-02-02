@@ -1,15 +1,16 @@
 import React, { Component } from "react";
-import { ReactComponent as YoutubeTVIcon } from "../../icons/youtube-TV.svg";
-import { ReactComponent as YoutubeMusicIcon } from "../../icons/youtube-music.svg";
-import { ReactComponent as YoutubeKidsIcon } from "../../icons/youtube-kids.svg";
-import { ReactComponent as YoutubeArtistsIcon } from "../../icons/youtube-artists.svg";
+import { ReactComponent as YoutubeTVIcon } from "../../../icons/youtube-TV.svg";
+import { ReactComponent as YoutubeMusicIcon } from "../../../icons/youtube-music.svg";
+import { ReactComponent as YoutubeKidsIcon } from "../../../icons/youtube-kids.svg";
+import { ReactComponent as YoutubeArtistsIcon } from "../../../icons/youtube-artists.svg";
+import { connect } from "react-redux";
 
 class ModalYouTubeApps extends Component {
   render() {
-    const { visibleApps } = this.props;
+    const { visibleYoutubeApps } = this.props;
     return (
       <div>
-        {visibleApps && (
+        {visibleYoutubeApps && (
           <div className="fixed z-20 top-[3.25rem] mx-2 right-4 border-gray-200 border-b border-l border-r bg-white">
             <a
               className="flex items-center h-10 p-4 my-2 hover:bg-gray-100 cursor-pointer"
@@ -49,4 +50,10 @@ class ModalYouTubeApps extends Component {
   }
 }
 
-export default ModalYouTubeApps;
+const mapStateToProps = (state) => {
+  return {
+    visibleYoutubeApps: state.modalWindows.visibleYoutubeApps,
+  };
+};
+
+export default connect(mapStateToProps)(ModalYouTubeApps);
