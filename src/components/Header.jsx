@@ -7,16 +7,63 @@ import { ReactComponent as AppsLogo } from "../icons/apps.svg";
 import { ReactComponent as SettingsLogo } from "../icons/three-dots-setings.svg";
 import { ReactComponent as ProfileLogo } from "../icons/prolifeIcon.svg";
 import { ReactComponent as SearchButtonLogo } from "../icons/search-button.svg";
-import ModalYouTubeApps from "./ModalMenu/ModalYoutubeApps/ModalYouTubeApps";
-import ModalSettings from "./ModalMenu/ModalSettings/ModalSettings";
+import ModalYouTubeApps from "./Menu/MenuYoutubeApps/MenuYouTubeApps";
+import MenuSettings from "./Menu/MenuSettings/MenuSettings";
 import { Link } from "react-router-dom";
 import defaultAvatar from "../icons/profileDefaultAvatar.jpg";
 import { withRouter } from "../withRouter";
 import { connect } from "react-redux";
-import { clearData, getSearchData } from "./store/searchVideoData";
-import { loadingFalse, loadingTrue } from "./store/loadingData";
+import {
+  clearData,
+  getSearchData,
+  handleSearchText,
+} from "../store/searchDataSlice";
+import { loadingFalse, loadingTrue } from "../store/loadingSlice";
+import {
+  handleModalSettings,
+  handleModalSignUp,
+  handleModalYouTubeApps,
+  handleSideBar,
+  handleUserModalMenu,
+} from "../store/handlersSlice";
+import { getUser } from "../store/userSlice";
 
 class Header extends Component {
+  componentDidMount() {
+    const { currentUser, dispatch } = this.props;
+    dispatch(getUser(currentUser));
+  }
+
+  handleUserModalMenu = () => {
+    const { dispatch } = this.props;
+    dispatch(handleUserModalMenu());
+  };
+
+  handleModalYouTubeApps = () => {
+    const { dispatch } = this.props;
+    dispatch(handleModalYouTubeApps());
+  };
+
+  handleModalSettings = () => {
+    const { dispatch } = this.props;
+    dispatch(handleModalSettings());
+  };
+
+  handleSideBar = () => {
+    const { dispatch } = this.props;
+    dispatch(handleSideBar());
+  };
+
+  handleModalSignUp = () => {
+    const { dispatch } = this.props;
+    dispatch(handleModalSignUp());
+  };
+
+  handleSearchInput = (e) => {
+    const { dispatch } = this.props;
+    dispatch(handleSearchText(e.target.value));
+  };
+
   handleSearch = (e) => {
     e.preventDefault();
     this.props.navigate("/search");
@@ -28,6 +75,7 @@ class Header extends Component {
     if (e.key !== "Enter") {
       return;
     }
+
     await dispatch(clearData());
     await dispatch(loadingTrue());
     await dispatch(getSearchData(searchText));
@@ -44,25 +92,14 @@ class Header extends Component {
   };
 
   render() {
-    const {
-      searchText,
-      handleSideBar,
-      handleModalApps,
-      handleModalSettings,
-      visibleApps,
-      visibleSettings,
-      handleSearch,
-      handleModalSignUp,
-      currentUser,
-      handleUserModalMenu,
-      user,
-    } = this.props;
+    const { searchText, visibleApps, visibleSettings, currentUser, user } =
+      this.props;
     return (
       <>
         <div className="flex justify-between fixed w-full bg-white z-20">
           <div className="flex items-center md:w-1/4">
             <BurgerMenuIcon
-              onClick={handleSideBar}
+              onClick={this.handleSideBar}
               className="w-5 ml-2 cursor-pointer md:w-6 md:ml-6 "
             />
             <Link to="/">
@@ -78,31 +115,30 @@ class Header extends Component {
               className="border p-2 pl-4 w-full focus:outline-none focus:border-blue-700 shadow-inner"
               type="text"
               value={searchText}
-              onChange={handleSearch}
+              onChange={this.handleSearchInput}
               onKeyDown={this.handleStartSearch}
             />
-            <Link
-              to="/search"
+            <button
               onClick={this.handleSearchClick}
               className="hidden md:block md:border md:p-2 md:px-6 md:bg-gray-100 md:hover:bg-gray-200"
             >
               <SearchButtonLogo className="w-4 md:w-6" />
-            </Link>
+            </button>
             <SearchVoiceLogo className="hidden md:block md:ml-2 md:w-8 md:cursor-pointer" />
           </form>
           <div className="flex justify-end items-center  md:w-1/4 md:mr-8">
             <AppsLogo
               className="hidden md:block md:ml-4 md:w-6 md:cursor-pointer"
-              onClick={handleModalApps}
+              onClick={this.handleModalYouTubeApps}
             />
             <SettingsLogo
               className="hidden md:block md:ml-4 md:w-6 md:cursor-pointer"
-              onClick={handleModalSettings}
+              onClick={this.handleModalSettings}
             />
 
             {currentUser ? (
               <button
-                onClick={handleUserModalMenu}
+                onClick={this.handleUserModalMenu}
                 className="mx-1 md:ml-10 w-8 h-8"
               >
                 <img
@@ -115,7 +151,7 @@ class Header extends Component {
               </button>
             ) : (
               <button
-                onClick={handleModalSignUp}
+                onClick={this.handleModalSignUp}
                 className=" md:ml-4 md:border-2 md:border-blue-600 md:p-2 md:flex md:items-center md:cursor-pointer"
               >
                 <ProfileLogo className="w-6 cursor-pointer mr-2" />
@@ -125,7 +161,7 @@ class Header extends Component {
           </div>
         </div>
         <ModalYouTubeApps visibleApps={visibleApps} />
-        <ModalSettings visibleSettings={visibleSettings} />
+        <MenuSettings visibleSettings={visibleSettings} />
       </>
     );
   }
