@@ -9,6 +9,7 @@ import { getCommentsData } from "../../../store/commentsDataSlice";
 import { getVideoInfo } from "../../../store/videoInfoSlice";
 import { videoDuration } from "../../../utils/videoDurationConvert";
 import { timeSinceLoadingVideo } from "../../../utils/timeSinceLoadingVideo";
+import PropTypes from "prop-types";
 
 class VideoContent extends Component {
   componentDidMount() {
@@ -27,13 +28,7 @@ class VideoContent extends Component {
   };
 
   render() {
-    const {
-      openSideBar,
-      // timeSinceLoadingVideo,
-      // videoDuration,
-      handleGetVideoInfo,
-      video,
-    } = this.props;
+    const { openSideBar, video } = this.props;
 
     return (
       <InfiniteScroll
@@ -102,3 +97,8 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(VideoContent);
+
+VideoContent.propTypes = {
+  openSideBar: PropTypes.bool.isRequired,
+  video: PropTypes.array.isRequired,
+};

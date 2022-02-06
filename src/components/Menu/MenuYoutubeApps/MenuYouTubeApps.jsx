@@ -4,6 +4,7 @@ import { ReactComponent as YoutubeMusicIcon } from "../../../icons/youtube-music
 import { ReactComponent as YoutubeKidsIcon } from "../../../icons/youtube-kids.svg";
 import { ReactComponent as YoutubeArtistsIcon } from "../../../icons/youtube-artists.svg";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 class MenuYouTubeApps extends Component {
   render() {
@@ -57,3 +58,7 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(MenuYouTubeApps);
+
+MenuYouTubeApps.propTypes = {
+  visibleYoutubeApps: PropTypes.bool.isRequired,
+};

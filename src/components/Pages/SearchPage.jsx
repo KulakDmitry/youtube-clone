@@ -10,6 +10,7 @@ import { getCommentsData } from "../../store/commentsDataSlice";
 import { getVideoSearchInfo } from "../../store/videoInfoSlice";
 import { videoDuration } from "../../utils/videoDurationConvert";
 import { timeSinceLoadingVideo } from "../../utils/timeSinceLoadingVideo";
+import PropTypes from "prop-types";
 
 class SearchPage extends Component {
   constructor(props) {
@@ -152,3 +153,9 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(SearchPage);
+
+SearchPage.propTypes = {
+  openSideBar: PropTypes.bool.isRequired,
+  searchVideoData: PropTypes.array.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+};

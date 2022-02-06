@@ -5,6 +5,7 @@ import RenderVideoList from "../RenderVideoList";
 import { v4 as uuidv4 } from "uuid";
 import { getCommentsData } from "../../store/commentsDataSlice";
 import { getVideoInfo } from "../../store/videoInfoSlice";
+import PropTypes from "prop-types";
 
 class LikedVideosPage extends Component {
   componentDidMount() {
@@ -55,3 +56,13 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(LikedVideosPage);
+
+LikedVideosPage.defaultProps = {
+  likedUserVideo: [],
+};
+
+LikedVideosPage.propTypes = {
+  openSideBar: PropTypes.bool.isRequired,
+  user: PropTypes.object.isRequired,
+  likedUserVideo: PropTypes.array,
+};

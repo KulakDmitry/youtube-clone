@@ -12,6 +12,7 @@ import { ReactComponent as VRButton } from "../../icons/360-video-icon.svg";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { handleSearchText, isChoose } from "../../store/searchDataSlice";
+import PropTypes from "prop-types";
 
 class AsideMenu extends Component {
   handleChooseAsideButton = (id) => {
@@ -231,3 +232,13 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(AsideMenu);
+
+AsideMenu.defaultProps = {
+  currentUser: null,
+};
+
+AsideMenu.propTypes = {
+  currentUser: PropTypes.object,
+  isChoose: PropTypes.string.isRequired,
+  openSideBar: PropTypes.bool.isRequired,
+};

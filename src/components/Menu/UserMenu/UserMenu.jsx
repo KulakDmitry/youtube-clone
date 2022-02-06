@@ -1,13 +1,14 @@
 import React, { Component } from "react";
-import { ReactComponent as SignOutIcon } from "../../icons/sign-out-icon.svg";
-import { ReactComponent as SettingsIcon } from "../../icons/settings-icon.svg";
-import { ReactComponent as AddProfileIcon } from "../../icons/addProfileIcon.svg";
-import { auth } from "../../firebase";
+import { ReactComponent as SignOutIcon } from "../../../icons/sign-out-icon.svg";
+import { ReactComponent as SettingsIcon } from "../../../icons/settings-icon.svg";
+import { ReactComponent as AddProfileIcon } from "../../../icons/addProfileIcon.svg";
+import { auth } from "../../../firebase";
 import { signOut } from "firebase/auth";
-import defaultAvatar from "../../icons/profileDefaultAvatar.jpg";
+import defaultAvatar from "../../../icons/profileDefaultAvatar.jpg";
 import { connect } from "react-redux";
-import { getUser, updateUserData } from "../../store/userSlice";
-import { handleUserModalMenu } from "../../store/handlersSlice";
+import { getUser, updateUserData } from "../../../store/userSlice";
+import { handleUserModalMenu } from "../../../store/handlersSlice";
+import PropTypes from "prop-types";
 
 class UserMenu extends Component {
   constructor(props) {
@@ -92,3 +93,13 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(UserMenu);
+
+UserMenu.defaultProps = {
+  currentUser: null,
+  user: null,
+};
+
+UserMenu.propTypes = {
+  currentUser: PropTypes.object,
+  user: PropTypes.object,
+};

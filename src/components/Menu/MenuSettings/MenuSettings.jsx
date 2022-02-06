@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { ReactComponent as SettingsAppearanceIcon } from "../../../icons/appearance.svg";
 import { ReactComponent as SettingsLanguageIcon } from "../../../icons/language-icon.svg";
+import PropTypes from "prop-types";
 
 class MenuSettings extends Component {
   render() {
@@ -25,3 +26,7 @@ class MenuSettings extends Component {
 }
 
 export default MenuSettings;
+
+MenuSettings.propTypes = {
+  visibleSettings: PropTypes.bool.isRequired,
+};

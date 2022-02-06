@@ -45,8 +45,8 @@ class ModalSignUp extends Component {
         await setDoc(doc(db, "users", values.username), {
           username: values.username,
           profileSrc: "",
-          followers: "",
-          likedVideos: "",
+          followers: [],
+          likedVideos: [],
           DislikedVideos: "",
         });
       }

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import defaultAvatar from "../../icons/profileDefaultAvatar.jpg";
 import { connect } from "react-redux";
 import { addComment } from "../../store/commentsDataSlice";
+import PropTypes from "prop-types";
 
 class AddComment extends Component {
   constructor(props) {
@@ -89,3 +90,11 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(AddComment);
+
+AddComment.defaultProps = {
+  user: null,
+};
+
+AddComment.propTypes = {
+  user: PropTypes.object,
+};

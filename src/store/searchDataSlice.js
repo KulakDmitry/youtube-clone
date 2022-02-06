@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 
 const searchData = "https://www.googleapis.com/youtube/v3/search?";
 const channelData = "https://www.googleapis.com/youtube/v3/channels?";
@@ -19,7 +19,7 @@ export const getSearchData = createAsyncThunk(
     );
     const data = await response.json();
 
-    const video = Promise.all(
+    const video = await Promise.all(
       data.items.map((video) =>
         fetch(
           videoData +
@@ -29,34 +29,39 @@ export const getSearchData = createAsyncThunk(
               id: video.id.videoId,
             })
         )
-          .then((response) => response.json())
-          .then((data) => ({
-            duration: data.items[0].contentDetails.duration,
-            views: data.items[0].statistics.viewCount,
-            likeCount: data.items[0].statistics.likeCount,
-            commentCount: data.items[0].statistics.commentCount,
-            ...video,
-          }))
-          .then((video) =>
-            fetch(
-              channelData +
-                new URLSearchParams({
-                  key: api_key,
-                  part: "snippet, statistics",
-                  id: video.snippet.channelId,
-                })
-            )
-              .then((response) => response.json())
-              .then((data) => ({
-                channelThumbnail: data.items[0].snippet.thumbnails.default.url,
-                subscribersCount: data.items[0].statistics.subscriberCount,
-                channelUrl: data.items[0].id,
-                ...video,
-              }))
-          )
       )
     );
-    return video;
+    const videoSearchData = await Promise.all(
+      video.map((response) => response.json())
+    );
+    const videoDataArray = videoSearchData.map((data) => ({
+      duration: data.items[0].contentDetails.duration,
+      views: data.items[0].statistics.viewCount,
+      likeCount: data.items[0].statistics.likeCount,
+      commentCount: data.items[0].statistics.commentCount,
+    }));
+    const getChannelData = await Promise.all(
+      data.items.map((video) =>
+        fetch(
+          channelData +
+            new URLSearchParams({
+              key: api_key,
+              part: "snippet, statistics",
+              id: video.snippet.channelId,
+            })
+        )
+      )
+    );
+    const videoChannelData = await Promise.all(
+      getChannelData.map((response) => response.json())
+    );
+    const videoChannelDataArray = videoChannelData.map((data) => ({
+      channelThumbnail: data.items[0].snippet.thumbnails.default.url,
+      subscribersCount: data.items[0].statistics.subscriberCount,
+      channelUrl: data.items[0].id,
+    }));
+
+    return data.items;
   }
 );
 
@@ -68,7 +73,7 @@ export const getSearchSortData = createAsyncThunk(
         new URLSearchParams({
           key: api_key,
           part: "snippet",
-          maxResults: 5,
+          maxResults: 10,
           q: searchText,
           order: e.target.value,
         })
@@ -85,34 +90,39 @@ export const getSearchSortData = createAsyncThunk(
               id: video.id.videoId,
             })
         )
-          .then((response) => response.json())
-          .then((data) => ({
-            duration: data.items[0].contentDetails.duration,
-            views: data.items[0].statistics.viewCount,
-            likeCount: data.items[0].statistics.likeCount,
-            commentCount: data.items[0].statistics.commentCount,
-            ...video,
-          }))
-          .then((video) =>
-            fetch(
-              channelData +
-                new URLSearchParams({
-                  key: api_key,
-                  part: "snippet, statistics",
-                  id: video.snippet.channelId,
-                })
-            )
-              .then((response) => response.json())
-              .then((data) => ({
-                channelThumbnail: data.items[0].snippet.thumbnails.default.url,
-                subscribersCount: data.items[0].statistics.subscriberCount,
-                channelUrl: data.items[0].id,
-                ...video,
-              }))
-          )
       )
     );
-    return video;
+    const videoSearchData = await Promise.all(
+      video.map((response) => response.json())
+    );
+    const videoDataArray = videoSearchData.map((data) => ({
+      duration: data.items[0].contentDetails.duration,
+      views: data.items[0].statistics.viewCount,
+      likeCount: data.items[0].statistics.likeCount,
+      commentCount: data.items[0].statistics.commentCount,
+    }));
+    const getChannelData = await Promise.all(
+      data.items.map((video) =>
+        fetch(
+          channelData +
+            new URLSearchParams({
+              key: api_key,
+              part: "snippet, statistics",
+              id: video.snippet.channelId,
+            })
+        )
+      )
+    );
+    const videoChannelData = await Promise.all(
+      getChannelData.map((response) => response.json())
+    );
+    const videoChannelDataArray = videoChannelData.map((data) => ({
+      channelThumbnail: data.items[0].snippet.thumbnails.default.url,
+      subscribersCount: data.items[0].statistics.subscriberCount,
+      channelUrl: data.items[0].id,
+    }));
+
+    return data.items;
   }
 );
 

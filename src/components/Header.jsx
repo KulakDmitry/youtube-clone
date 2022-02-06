@@ -27,6 +27,7 @@ import {
   handleUserModalMenu,
 } from "../store/handlersSlice";
 import { getUser } from "../store/userSlice";
+import PropTypes from "prop-types";
 
 class Header extends Component {
   componentDidMount() {
@@ -92,8 +93,7 @@ class Header extends Component {
   };
 
   render() {
-    const { searchText, visibleApps, visibleSettings, currentUser, user } =
-      this.props;
+    const { searchText, visibleSettings, currentUser, user } = this.props;
     return (
       <>
         <div className="flex justify-between fixed w-full bg-white z-20">
@@ -160,7 +160,7 @@ class Header extends Component {
             )}
           </div>
         </div>
-        <ModalYouTubeApps visibleApps={visibleApps} />
+        <ModalYouTubeApps />
         <MenuSettings visibleSettings={visibleSettings} />
       </>
     );
@@ -179,3 +179,15 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(withRouter(Header));
+
+Header.defaultProps = {
+  currentUser: null,
+  user: null,
+};
+
+Header.propTypes = {
+  currentUser: PropTypes.object,
+  user: PropTypes.object,
+  searchText: PropTypes.string.isRequired,
+  visibleSettings: PropTypes.bool.isRequired,
+};

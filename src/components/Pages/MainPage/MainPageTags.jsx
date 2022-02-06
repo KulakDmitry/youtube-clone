@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 class MainPageTags extends Component {
   render() {
@@ -53,3 +54,7 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(MainPageTags);
+
+MainPageTags.propTypes = {
+  openSideBar: PropTypes.bool.isRequired,
+};

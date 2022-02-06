@@ -9,6 +9,7 @@ import { getVideo } from "../../store/videoContentDataSlice";
 import RenderVideoList from "../RenderVideoList";
 import { getCommentsData } from "../../store/commentsDataSlice";
 import { getVideoInfo } from "../../store/videoInfoSlice";
+import PropTypes from "prop-types";
 
 class ExplorePage extends Component {
   componentDidMount() {
@@ -74,3 +75,8 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(ExplorePage);
+
+ExplorePage.propTypes = {
+  openSideBar: PropTypes.bool.isRequired,
+  video: PropTypes.array.isRequired,
+};

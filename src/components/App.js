@@ -7,13 +7,14 @@ import SearchPage from "./Pages/SearchPage";
 import ModalSignUp from "./ModalSignUp/ModalSignUp";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase";
-import ModalUserMenu from "./UserMenu/UserMenu";
+import ModalUserMenu from "./Menu/UserMenu/UserMenu";
 import MainPage from "./Pages/MainPage/MainPage";
 import SubscriptionsPage from "./Pages/SubscriptionsPage";
 import LikedVideosPage from "./Pages/LikedVideosPage";
 import { connect } from "react-redux";
 import AsideMenu from "./Menu/AsideMenu";
 import { getUser } from "../store/userSlice";
+import PropTypes from "prop-types";
 
 class App extends Component {
   constructor(props) {
@@ -77,3 +78,13 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(App);
+
+App.defaultProps = {
+  user: null,
+};
+
+App.propTypes = {
+  user: PropTypes.object,
+  visibleModalSingUp: PropTypes.bool.isRequired,
+  visibleUserModalMenu: PropTypes.bool.isRequired,
+};

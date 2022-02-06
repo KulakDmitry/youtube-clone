@@ -13,6 +13,7 @@ import { getVideoInfo } from "../../store/videoInfoSlice";
 import { getCommentsData } from "../../store/commentsDataSlice";
 import { videoDuration } from "../../utils/videoDurationConvert";
 import { timeSinceLoadingVideo } from "../../utils/timeSinceLoadingVideo";
+import PropTypes from "prop-types";
 
 class MainVideoPage extends Component {
   componentDidMount() {
@@ -69,8 +70,7 @@ class MainVideoPage extends Component {
   };
 
   render() {
-    const { currentUser, handleAddComment, video, user, videoInfo } =
-      this.props;
+    const { currentUser, video, user, videoInfo } = this.props;
     return (
       <div>
         <div className="md:ml-3 py-20 md:flex md:px-14">
@@ -182,11 +182,7 @@ class MainVideoPage extends Component {
               <div className="pl-4 pb-4 md:pl-0 md:pb-0">
                 {videoInfo.commentCount} Comments
               </div>
-              <Comments
-                handleAddComment={handleAddComment}
-                currentUser={currentUser}
-                videoInfo={videoInfo}
-              />
+              <Comments currentUser={currentUser} videoInfo={videoInfo} />
             </div>
           </div>
           <div className="md:w-1/3 md:pl-7">
@@ -240,3 +236,15 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(MainVideoPage);
+
+MainVideoPage.defaultProps = {
+  user: null,
+  currentUser: null,
+};
+
+MainVideoPage.propTypes = {
+  currentUser: PropTypes.object,
+  video: PropTypes.array.isRequired,
+  videoInfo: PropTypes.object.isRequired,
+  user: PropTypes.object,
+};

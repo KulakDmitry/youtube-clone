@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getChannel } from "../../store/channelSubsSlice";
 import { convertCount } from "../../utils/convertCount";
+import PropTypes from "prop-types";
 
 class SubscriptionsPage extends Component {
   componentDidMount() {
@@ -57,3 +58,13 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(SubscriptionsPage);
+
+SubscriptionsPage.defaultProps = {
+  channelSubs: [],
+};
+
+SubscriptionsPage.propTypes = {
+  openSideBar: PropTypes.bool.isRequired,
+  user: PropTypes.object.isRequired,
+  channelSubs: PropTypes.array,
+};

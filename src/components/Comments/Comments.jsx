@@ -4,6 +4,7 @@ import { ReactComponent as DislikeIcon } from "../../icons/dislike-icon.svg";
 import AddComment from "./AddComment";
 import { connect } from "react-redux";
 import { timeSinceLoadingVideo } from "../../utils/timeSinceLoadingVideo";
+import PropTypes from "prop-types";
 
 const COMMENTS_MIN_COUNT = 5;
 
@@ -24,18 +25,14 @@ class Comments extends Component {
   };
 
   render() {
-    const { currentUser, handleAddComment, state, videoComments, videoInfo } =
+    const { currentUser, handleAddComment, videoComments, videoInfo } =
       this.props;
     const { commentSlice } = this.state;
 
     return (
       <>
         {currentUser && (
-          <AddComment
-            handleAddComment={handleAddComment}
-            videoInfo={videoInfo}
-            currentUser={currentUser}
-          />
+          <AddComment videoInfo={videoInfo} currentUser={currentUser} />
         )}
         {videoComments?.slice(0, commentSlice).map((i) => (
           <div key={i.id} className="flex p-3 md:p-0 md:py-8">
@@ -110,3 +107,13 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(Comments);
+
+Comments.defaultProps = {
+  currentUser: null,
+};
+
+Comments.propTypes = {
+  currentUser: PropTypes.object,
+  videoComments: PropTypes.array.isRequired,
+  videoInfo: PropTypes.object.isRequired,
+};
