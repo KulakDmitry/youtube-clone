@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/youtube-clone/static/css/main.27aecaf2.css",
-    "main.js": "/youtube-clone/static/js/main.b24f1dee.js",
+    "main.js": "/youtube-clone/static/js/main.b3dd4b82.js",
     "static/media/profileDefaultAvatar.jpg": "/youtube-clone/static/media/profileDefaultAvatar.5744bdd4e86b254d54b1.jpg",
     "static/media/sportsicon.svg": "/youtube-clone/static/media/sportsicon.d71c4b18c6b552f90421f8ac9250b4de.svg",
     "static/media/settings-icon.svg": "/youtube-clone/static/media/settings-icon.d1f12c2838fe47b49cafa3c482e7d570.svg",
@@ -39,10 +39,10 @@
     "static/media/burger-menu-icon.svg": "/youtube-clone/static/media/burger-menu-icon.b74c5d8dfa35629abd12025ec121b0b8.svg",
     "static/media/subscriptions-icon.svg": "/youtube-clone/static/media/subscriptions-icon.308f0df2c835cd227aaba2d0b9485d21.svg",
     "main.27aecaf2.css.map": "/youtube-clone/static/css/main.27aecaf2.css.map",
-    "main.b24f1dee.js.map": "/youtube-clone/static/js/main.b24f1dee.js.map"
+    "main.b3dd4b82.js.map": "/youtube-clone/static/js/main.b3dd4b82.js.map"
   },
   "entrypoints": [
     "static/css/main.27aecaf2.css",
-    "static/js/main.b24f1dee.js"
+    "static/js/main.b3dd4b82.js"
   ]
 }
