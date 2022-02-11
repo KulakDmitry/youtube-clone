@@ -23,20 +23,21 @@ class SubscriptionsPage extends Component {
           } bg-gray-50 pt-20 md:gap-10 `}
         >
           {user && channelSubs && user.followers.length ? (
-            channelSubs.map((i) => (
+            channelSubs.map((channelSub) => (
               <a
-                key={i.id}
-                href={`https://www.youtube.com/channel/${i.id}`}
+                key={channelSub.id}
+                href={`https://www.youtube.com/channel/${channelSub.id}`}
                 className="m-2 p-4 flex flex-col items-center"
               >
                 <img
                   className="rounded-full"
-                  src={`${i.snippet.thumbnails.default.url}`}
+                  src={`${channelSub.snippet.thumbnails.default.url}`}
                   alt=""
                 />
-                <span>{i.snippet.title}</span>
+                <span>{channelSub.snippet.title}</span>
                 <span>
-                  {convertCount(i.statistics.subscriberCount)} subscribers
+                  {convertCount(channelSub.statistics.subscriberCount)}
+                  subscribers
                 </span>
               </a>
             ))
@@ -61,10 +62,11 @@ export default connect(mapStateToProps)(SubscriptionsPage);
 
 SubscriptionsPage.defaultProps = {
   channelSubs: [],
+  user: null,
 };
 
 SubscriptionsPage.propTypes = {
   openSideBar: PropTypes.bool.isRequired,
-  user: PropTypes.object.isRequired,
+  user: PropTypes.object,
   channelSubs: PropTypes.array,
 };

@@ -16,7 +16,7 @@ export const getLikedVideo = createAsyncThunk(
     );
     const data = await response.json();
 
-    return Promise.all(
+    return await Promise.all(
       data.items.map((video) =>
         fetch(
           channelData +
@@ -34,11 +34,11 @@ export const getLikedVideo = createAsyncThunk(
             ...video,
           }))
       )
-    ).then();
+    );
   }
 );
 
-const likedVideDataSlice = createSlice({
+const likedVideoDataSlice = createSlice({
   name: "likedVideoData",
   initialState: {
     likedUserVideo: [],
@@ -51,4 +51,4 @@ const likedVideDataSlice = createSlice({
   },
 });
 
-export default likedVideDataSlice.reducer;
+export default likedVideoDataSlice.reducer;

@@ -13,7 +13,7 @@ export const getVideo = createAsyncThunk(
           key: api_key,
           part: "snippet, contentDetails, statistics",
           chart: "mostPopular",
-          maxResults: 1,
+          maxResults: 20,
           regionCode: "US",
           pageToken: "",
         })

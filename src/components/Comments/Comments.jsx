@@ -25,8 +25,7 @@ class Comments extends Component {
   };
 
   render() {
-    const { currentUser, handleAddComment, videoComments, videoInfo } =
-      this.props;
+    const { currentUser, videoComments, videoInfo } = this.props;
     const { commentSlice } = this.state;
 
     return (
@@ -34,15 +33,16 @@ class Comments extends Component {
         {currentUser && (
           <AddComment videoInfo={videoInfo} currentUser={currentUser} />
         )}
-        {videoComments?.slice(0, commentSlice).map((i) => (
-          <div key={i.id} className="flex p-3 md:p-0 md:py-8">
+        {videoComments?.slice(0, commentSlice).map((videoComment) => (
+          <div key={videoComment.id} className="flex p-3 md:p-0 md:py-8">
             <div>
               <img
                 className="rounded-full cursor-pointer w-12 h-12"
                 src={
-                  i.snippet
-                    ? i.snippet.topLevelComment.snippet.authorProfileImageUrl
-                    : i.videoComment.authorProfileImageUrl
+                  videoComment.snippet
+                    ? videoComment.snippet.topLevelComment.snippet
+                        .authorProfileImageUrl
+                    : videoComment.videoComment.authorProfileImageUrl
                 }
                 alt=""
               />
@@ -51,35 +51,37 @@ class Comments extends Component {
               <p>
                 <a
                   href={
-                    i.snippet
-                      ? i.snippet.topLevelComment.snippet.authorChannelUrl
+                    videoComment.snippet
+                      ? videoComment.snippet.topLevelComment.snippet
+                          .authorChannelUrl
                       : null
                   }
                   className="text-sm font-semibold pr-2 cursor-pointer"
                 >
-                  {i.snippet
-                    ? i.snippet.topLevelComment.snippet.authorDisplayName
-                    : i.videoComment.authorDisplayName}
+                  {videoComment.snippet
+                    ? videoComment.snippet.topLevelComment.snippet
+                        .authorDisplayName
+                    : videoComment.videoComment.authorDisplayName}
                 </a>
                 <span className=" text-xs text-gray-500">
                   {timeSinceLoadingVideo(
-                    i.snippet
-                      ? i.snippet.topLevelComment.snippet.publishedAt
-                      : i.videoComment.publishedAt
+                    videoComment.snippet
+                      ? videoComment.snippet.topLevelComment.snippet.publishedAt
+                      : videoComment.videoComment.publishedAt
                   )}
                 </span>
               </p>
               <span className="text-sm">
-                {i.snippet
-                  ? i.snippet.topLevelComment.snippet.textOriginal
-                  : i.videoComment.textOriginal}
+                {videoComment.snippet
+                  ? videoComment.snippet.topLevelComment.snippet.textOriginal
+                  : videoComment.videoComment.textOriginal}
               </span>
               <div className="flex items-center pt-4">
                 <LikeIcon className="w-4 h-4 cursor-pointer" />
                 <span className="text-xs text-gray-600 pr-6 pl-2">
-                  {i.snippet
-                    ? i.snippet.topLevelComment.snippet.likeCount
-                    : i.videoComment.likeCount}
+                  {videoComment.snippet
+                    ? videoComment.snippet.topLevelComment.snippet.likeCount
+                    : videoComment.videoComment.likeCount}
                 </span>
                 <DislikeIcon className="w-4 h-4 cursor-pointer" />
               </div>

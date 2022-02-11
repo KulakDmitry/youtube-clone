@@ -3,7 +3,7 @@ import videoContentDataReducer from "./videoContentDataSlice";
 import searchDataReducer from "./searchDataSlice";
 import commentsDataReducer from "./commentsDataSlice";
 import userReducer from "./userSlice";
-import likedVideoDataReducer from "./likedVideDataSlice";
+import likedVideoDataReducer from "./likedVideoDataSlice";
 import channelSubsReducer from "./channelSubsSlice";
 import loadingReducer from "./loadingSlice";
 import videoInfoReducer from "./videoInfoSlice";

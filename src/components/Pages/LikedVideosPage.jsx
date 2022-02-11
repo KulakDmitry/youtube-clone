@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getLikedVideo } from "../../store/likedVideDataSlice";
+import { getLikedVideo } from "../../store/likedVideoDataSlice";
 import RenderVideoList from "../RenderVideoList";
-import { v4 as uuidv4 } from "uuid";
 import { getCommentsData } from "../../store/commentsDataSlice";
 import { getVideoInfo } from "../../store/videoInfoSlice";
 import PropTypes from "prop-types";
@@ -21,7 +20,7 @@ class LikedVideosPage extends Component {
   };
 
   render() {
-    const { openSideBar, user, likedUserVideo } = this.props;
+    const { openSideBar, user, likedUserVideos } = this.props;
     return (
       <div>
         <div
@@ -30,11 +29,11 @@ class LikedVideosPage extends Component {
           } bg-gray-50 pt-20 `}
         >
           {user && user.likedVideos.length ? (
-            likedUserVideo.map((i) => (
+            likedUserVideos.map((video, index) => (
               <RenderVideoList
                 handleGetVideoInfo={this.handleGetVideoInfo}
-                i={i}
-                key={uuidv4()}
+                video={video}
+                key={index}
               />
             ))
           ) : (
@@ -50,7 +49,7 @@ class LikedVideosPage extends Component {
 const mapStateToProps = (state) => {
   return {
     user: state.user.user,
-    likedUserVideo: state.likedVideoData.likedUserVideo,
+    likedUserVideos: state.likedVideoData.likedUserVideo,
     openSideBar: state.modalWindows.openSideBar,
   };
 };
@@ -58,11 +57,12 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps)(LikedVideosPage);
 
 LikedVideosPage.defaultProps = {
-  likedUserVideo: [],
+  likedUserVideos: [],
+  user: null,
 };
 
 LikedVideosPage.propTypes = {
   openSideBar: PropTypes.bool.isRequired,
-  user: PropTypes.object.isRequired,
-  likedUserVideo: PropTypes.array,
+  user: PropTypes.object,
+  likedUserVideos: PropTypes.array,
 };

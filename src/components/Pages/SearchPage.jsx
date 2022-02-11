@@ -42,7 +42,7 @@ class SearchPage extends Component {
   };
 
   render() {
-    const { openSideBar, searchVideoData, isLoading } = this.props;
+    const { openSideBar, searchVideosData, isLoading } = this.props;
 
     const sortBy = ["Date", "Rating", "Relevance", "ViewCount"];
 
@@ -59,7 +59,7 @@ class SearchPage extends Component {
             <Spinner className="animate-spin h-20 w-20 absolute top-[40%] right-[40%] md:right-[50%]" />
           ) : (
             <div>
-              {searchVideoData.length ? (
+              {searchVideosData.length ? (
                 <div>
                   <div className="pl-4 md:p-0 md:pb-2 mb-8 border-b border-gray-300">
                     <button
@@ -74,58 +74,58 @@ class SearchPage extends Component {
                   </div>
                   {this.state.isOpen && (
                     <div className="flex justify-evenly md:py-2 my-8 md:w-[60%]">
-                      {sortBy.map((i, idx) => (
+                      {sortBy.map((value, idx) => (
                         <button
                           className="text-sm text-gray-600"
                           key={idx}
                           onClick={this.handleSortSearch}
-                          value={`${i}`}
+                          value={`${value}`}
                         >
-                          {i}
+                          {value}
                         </button>
                       ))}
                     </div>
                   )}
-                  {searchVideoData.map((i) => (
+                  {searchVideosData.map((video) => (
                     <Link
-                      onClick={() => this.handleGetVideoSearchInfo(i)}
-                      to={`/video/${i.id.videoId}`}
-                      key={i.id.videoId}
+                      onClick={() => this.handleGetVideoSearchInfo(video)}
+                      to={`/video/${video.id.videoId}`}
+                      key={video.id.videoId}
                       className="px-2 md:p-0 flex mb-3"
                     >
                       <div className="relative w-32 h-20 md:w-72 md:h-40">
                         <img
                           className="w-32 h-20  md:w-72 md:h-40"
-                          src={`${i.snippet.thumbnails.medium.url}`}
+                          src={`${video.snippet.thumbnails.medium.url}`}
                           alt=""
                         />
                         <span className="absolute bottom-0 right-1 rounded-sm text-white bg-black text-xs px-0.5 mb-1">
-                          {videoDuration(i.duration)}
+                          {videoDuration(video.duration)}
                         </span>
                       </div>
                       <div className="pl-4 md:p-4 md:pt-0 md:w-[45%] w-[60%] ">
                         <p className="flex flex-col">
                           <span className="text-base font-semibold line-clamp-2">
-                            {i.snippet.title}
+                            {video.snippet.title}
                           </span>
                           <span className="text-xs font-light pt-0.5 md:p-0 md:py-2">
                             <span className="after:content-['_•'] mr-1">
-                              {convertCount(i.views)} views
+                              {convertCount(video.views)} views
                             </span>
                             <span>
-                              {timeSinceLoadingVideo(i.snippet.publishedAt)}
+                              {timeSinceLoadingVideo(video.snippet.publishedAt)}
                             </span>
                           </span>
                           <span className="py-1 text-xs font-light flex items-center">
                             <img
                               className="hidden md:inline rounded-full mr-4 float-left w-10 h-10"
-                              src={`${i.channelThumbnail}`}
+                              src={`${video.channelThumbnail}`}
                               alt=""
                             />
-                            {i.snippet.channelTitle}
+                            {video.snippet.channelTitle}
                           </span>
                           <span className="hidden md:block text-xs md:line-clamp-2">
-                            {i.snippet.description}
+                            {video.snippet.description}
                           </span>
                         </p>
                       </div>
@@ -145,7 +145,7 @@ class SearchPage extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    searchVideoData: state.searchData.searchVideoData,
+    searchVideosData: state.searchData.searchVideoData,
     searchText: state.searchData.searchText,
     isLoading: state.loading.isLoading,
     openSideBar: state.modalWindows.openSideBar,
@@ -156,6 +156,6 @@ export default connect(mapStateToProps)(SearchPage);
 
 SearchPage.propTypes = {
   openSideBar: PropTypes.bool.isRequired,
-  searchVideoData: PropTypes.array.isRequired,
+  searchVideosData: PropTypes.array.isRequired,
   isLoading: PropTypes.bool.isRequired,
 };

@@ -3,7 +3,6 @@ import { ReactComponent as TrendIcon } from "../../icons/fire-icon-trend.svg";
 import { ReactComponent as GamesIcon } from "../../icons/game-icon.svg";
 import { ReactComponent as MusicIcon } from "../../icons/music.svg";
 import { ReactComponent as SportIcon } from "../../icons/sportsicon.svg";
-import { v4 as uuidv4 } from "uuid";
 import { connect } from "react-redux";
 import { getVideo } from "../../store/videoContentDataSlice";
 import RenderVideoList from "../RenderVideoList";
@@ -24,7 +23,7 @@ class ExplorePage extends Component {
   };
 
   render() {
-    const { openSideBar, video } = this.props;
+    const { openSideBar, videos } = this.props;
 
     return (
       <>
@@ -53,11 +52,11 @@ class ExplorePage extends Component {
           </div>
           <span className="font-semibold p-3 md:p-0">Trending videos</span>
           <div className="flex flex-col p-3 md:p-0">
-            {video.map((i) => (
+            {videos.map((video, index) => (
               <RenderVideoList
                 handleGetVideoInfo={this.handleGetVideoInfo}
-                i={i}
-                key={uuidv4()}
+                video={video}
+                key={index}
               />
             ))}
           </div>
@@ -69,7 +68,7 @@ class ExplorePage extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    video: state.videoContentData.video,
+    videos: state.videoContentData.video,
     openSideBar: state.modalWindows.openSideBar,
   };
 };
@@ -78,5 +77,5 @@ export default connect(mapStateToProps)(ExplorePage);
 
 ExplorePage.propTypes = {
   openSideBar: PropTypes.bool.isRequired,
-  video: PropTypes.array.isRequired,
+  videos: PropTypes.array.isRequired,
 };
